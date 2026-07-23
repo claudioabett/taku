@@ -1,0 +1,2025 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TAKU — Equipo Técnico Outdoor</title>
+<script defer src="https://cdn.vercel-insights.com/v1/speed-insights/script.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --verde:#2D4A3E;--naranja:#E8651A;--gris-claro:#F2F0ED;--oscuro:#1A1A1A;
+  --blanco:#FFFFFF;--verde-light:#3d6554;--naranja-dark:#c4530f;
+  --shadow:0 4px 20px rgba(0,0,0,.08);--shadow-lg:0 8px 40px rgba(0,0,0,.15);
+  --radius:8px;--transition:.25s ease;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--gris-claro);color:var(--oscuro);overflow-x:hidden}
+h1,h2,h3,h4{font-family:'Barlow Condensed',sans-serif;letter-spacing:.02em}
+img{max-width:100%;display:block}
+button{cursor:pointer;border:none;font-family:'Inter',sans-serif;background:none}
+a{text-decoration:none;color:inherit}
+
+/* READ PROGRESS BAR */
+#read-bar{position:fixed;top:0;left:0;width:0%;height:2px;background:var(--naranja);z-index:1001;pointer-events:none;transition:width .08s linear}
+[data-theme="dark"] #read-bar{background:var(--naranja)}
+
+/* NAVBAR */
+.navbar{position:sticky;top:0;z-index:1000;background:var(--verde);border-bottom:1px solid transparent;transition:box-shadow .4s ease,height .35s ease,background .4s ease,border-color .4s ease}
+.navbar.scrolled{box-shadow:0 1px 0 rgba(255,255,255,.07),0 8px 32px rgba(0,0,0,.38);background:#243e34;border-bottom-color:rgba(255,255,255,.06)}
+[data-theme="dark"] .navbar.scrolled{background:#0f1e19;box-shadow:0 1px 0 rgba(255,255,255,.05),0 8px 32px rgba(0,0,0,.6)}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:64px;max-width:1400px;margin:0 auto;gap:16px;transition:height .3s}
+.navbar.scrolled .nav-inner{height:52px}
+.nav-logo{cursor:pointer;flex-shrink:0;display:flex;align-items:center;transition:transform .3s}
+.navbar.scrolled .nav-logo{transform:scale(.88)}
+.nav-cats{display:flex;gap:6px;flex-shrink:0}
+.nav-cats button{color:rgba(255,255,255,.8);font-size:.85rem;font-weight:500;padding:6px 12px;border-radius:20px;transition:var(--transition)}
+.nav-cats button:hover,.nav-cats button.active{background:rgba(255,255,255,.15);color:#fff}
+.nav-actions{display:flex;align-items:center;gap:4px;flex-shrink:0}
+.nav-btn{color:#fff;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:var(--transition);position:relative;font-size:1.1rem}
+.nav-btn:hover{background:rgba(255,255,255,.15)}
+.cart-count{position:absolute;top:4px;right:4px;background:var(--naranja);color:#fff;font-size:.6rem;font-weight:700;width:17px;height:17px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;pointer-events:none}
+@keyframes cartBounce{
+  0%  {transform:scale(1)    rotate(0deg)}
+  18% {transform:scale(1.32) rotate(-14deg)}
+  38% {transform:scale(.93)  rotate(8deg)}
+  58% {transform:scale(1.13) rotate(-5deg)}
+  76% {transform:scale(.97)  rotate(2deg)}
+  100%{transform:scale(1)    rotate(0deg)}
+}
+.cart-bounce{animation:cartBounce .58s cubic-bezier(.36,.07,.19,.97) both}
+.search-bar{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:20px;padding:6px 14px;color:#fff;font-size:.85rem;width:180px;outline:none;transition:var(--transition)}
+.search-bar::placeholder{color:rgba(255,255,255,.5)}
+.search-bar:focus{background:rgba(255,255,255,.2);width:220px}
+.hamburger{display:none;flex-direction:column;gap:5px;padding:8px;border-radius:6px}
+.hamburger span{width:22px;height:2px;background:#fff;border-radius:2px;display:block;transition:var(--transition)}
+.mobile-menu{display:none;position:fixed;top:64px;left:0;right:0;bottom:0;background:var(--verde);z-index:999;padding:24px;flex-direction:column;gap:4px;overflow-y:auto}
+.mobile-menu.open{display:flex}
+.mobile-menu button{color:#fff;font-size:1.1rem;font-weight:600;padding:13px 16px;border-radius:8px;text-align:left;transition:var(--transition);width:100%}
+.mobile-menu button:hover{background:rgba(255,255,255,.1)}
+
+/* HERO */
+.hero{position:relative;height:100vh;height:100dvh;min-height:580px;display:flex;flex-direction:column;justify-content:center;overflow:hidden;background:var(--oscuro)}
+.hero-bg{position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1551632811-561732d1e306?w=1600&q=80') center/cover no-repeat;filter:brightness(.42)}
+.hero-content{position:relative;z-index:1;max-width:1400px;margin:0 auto;padding:0 40px;width:100%;flex:1;display:flex;flex-direction:column;justify-content:center}
+.hero-tag{font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--naranja);letter-spacing:.18em;margin-bottom:14px;text-transform:uppercase}
+.hero-title{font-family:'Barlow Condensed',sans-serif;font-size:clamp(3.2rem,10vw,8rem);font-weight:800;color:#fff;line-height:.92;text-transform:uppercase;margin-bottom:22px}
+@media(max-width:520px){.hero-title{font-size:clamp(2rem,9vw,3.2rem)}}
+.hero-title em{color:var(--naranja);font-style:normal}
+.hero-sub{color:rgba(255,255,255,.8);font-size:1.05rem;max-width:460px;margin-bottom:36px;line-height:1.65}
+.hero-ctas{display:flex;gap:14px;flex-wrap:wrap}
+.btn-primary{background:var(--naranja);color:#fff;padding:13px 30px;border-radius:4px;font-weight:600;font-size:.92rem;letter-spacing:.04em;transition:var(--transition);border:2px solid var(--naranja)}
+.btn-primary:hover{background:var(--naranja-dark);border-color:var(--naranja-dark);transform:translateY(-2px)}
+.btn-outline{background:transparent;color:#fff;padding:13px 30px;border-radius:4px;font-weight:600;font-size:.92rem;letter-spacing:.04em;border:2px solid rgba(255,255,255,.5);transition:var(--transition)}
+.btn-outline:hover{border-color:#fff;background:rgba(255,255,255,.1)}
+.trust-bar{position:relative;z-index:1;background:var(--oscuro);padding:14px 24px;display:flex;justify-content:center;align-items:center;flex-wrap:wrap}
+.trust-item{display:flex;align-items:center;gap:8px;color:rgba(255,255,255,.85);font-size:.75rem;font-family:'JetBrains Mono',monospace;letter-spacing:.05em;white-space:nowrap;padding:4px 24px}
+.trust-item svg{color:var(--naranja);flex-shrink:0}
+.trust-sep{color:rgba(255,255,255,.2);font-size:.75rem;flex-shrink:0}
+
+/* SECTIONS */
+.section{padding:72px 24px}
+.section-inner{max-width:1400px;margin:0 auto}
+.section-label{font-family:'JetBrains Mono',monospace;font-size:.68rem;color:var(--naranja);letter-spacing:.2em;text-transform:uppercase;margin-bottom:8px}
+.section-title{font-family:'Barlow Condensed',sans-serif;font-size:clamp(2rem,5vw,3.2rem);font-weight:800;color:var(--oscuro);text-transform:uppercase;line-height:1}
+
+/* CATEGORIES */
+.cats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.cat-card{position:relative;height:400px;border-radius:var(--radius);overflow:hidden;cursor:pointer}
+.cat-card img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
+.cat-card:hover img{transform:scale(1.06)}
+.cat-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.7) 0%,rgba(0,0,0,.1) 60%);display:flex;flex-direction:column;justify-content:flex-end;padding:28px;transition:var(--transition)}
+.cat-card:hover .cat-overlay{background:linear-gradient(to top,rgba(45,74,62,.85) 0%,rgba(0,0,0,.2) 60%)}
+.cat-name{font-family:'Barlow Condensed',sans-serif;font-size:1.9rem;font-weight:800;color:#fff;text-transform:uppercase;margin-bottom:10px}
+.cat-btn{opacity:0;transform:translateY(8px);background:var(--naranja);color:#fff;padding:10px 18px;border-radius:4px;font-size:.82rem;font-weight:600;transition:var(--transition)}
+.cat-card:hover .cat-btn{opacity:1;transform:translateY(0)}
+
+/* CATALOG */
+.catalog-wrap{display:flex;gap:28px}
+.filters{width:230px;flex-shrink:0}
+.filters-inner{background:var(--blanco);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow);position:sticky;top:82px}
+.filter-title{font-family:'Barlow Condensed',sans-serif;font-size:1.05rem;font-weight:700;color:var(--oscuro);text-transform:uppercase;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid rgba(0,0,0,.08)}
+.filter-group{margin-bottom:22px}
+.filter-group-title{font-size:.68rem;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px;font-family:'JetBrains Mono',monospace}
+.filter-check{display:flex;align-items:center;gap:8px;font-size:.85rem;color:var(--oscuro);margin-bottom:7px;cursor:pointer;user-select:none}
+.filter-check input{accent-color:var(--naranja);cursor:pointer;width:15px;height:15px;flex-shrink:0}
+.price-range{width:100%;accent-color:var(--naranja);cursor:pointer}
+.price-display{font-family:'JetBrains Mono',monospace;font-size:.78rem;color:var(--naranja);margin-top:6px}
+.filter-btn-clr{border:1px solid rgba(0,0,0,.15);border-radius:4px;padding:7px 12px;font-size:.78rem;color:var(--oscuro);transition:var(--transition);width:100%;margin-top:4px}
+.filter-btn-clr:hover{background:var(--naranja);color:#fff;border-color:var(--naranja)}
+.products-area{flex:1;min-width:0}
+.products-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.filter-mobile-btn{display:none;align-items:center;gap:8px;background:var(--verde);color:#fff;padding:10px 18px;border-radius:4px;font-size:.85rem;font-weight:600;margin-bottom:20px;letter-spacing:.04em;position:relative}
+.filter-mobile-btn .fbtn-count{background:var(--naranja);color:#fff;font-family:'JetBrains Mono',monospace;font-size:.65rem;font-weight:700;padding:2px 7px;border-radius:20px;margin-left:4px}
+
+/* PRODUCT CARD */
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.prod-card{background:var(--blanco);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);transition:transform .25s,box-shadow .25s;animation:fadeUp .5s ease backwards}
+.prod-card:nth-child(1){animation-delay:.05s}
+.prod-card:nth-child(2){animation-delay:.1s}
+.prod-card:nth-child(3){animation-delay:.15s}
+.prod-card:nth-child(4){animation-delay:.2s}
+.prod-card:nth-child(5){animation-delay:.25s}
+.prod-card:nth-child(6){animation-delay:.3s}
+.prod-card:nth-child(7){animation-delay:.35s}
+.prod-card:nth-child(8){animation-delay:.4s}
+.prod-card:nth-child(9){animation-delay:.45s}
+.prod-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
+.prod-img-wrap{position:relative;aspect-ratio:3/4;overflow:hidden;background:#e8e8e8;cursor:pointer}
+.prod-img-wrap img{width:100%;height:100%;object-fit:cover;transition:transform .4s ease,opacity .5s ease;position:absolute;inset:0}
+.prod-img-wrap img.main-img{opacity:0}
+.prod-img-wrap img.main-img.img-loaded{opacity:1}
+.prod-img-wrap img.hover-img{opacity:0}
+.prod-card:hover .prod-img-wrap img.main-img{opacity:0}
+.prod-card:hover .prod-img-wrap img.hover-img{opacity:1}
+.prod-card:hover .prod-img-wrap img{transform:scale(1.05)}
+.terrain-badge{position:absolute;top:0;left:0;z-index:2;pointer-events:none}
+.terrain-badge span{display:block;background:var(--verde);color:#fff;font-family:'JetBrains Mono',monospace;font-size:.58rem;padding:5px 12px 5px 8px;letter-spacing:.08em;clip-path:polygon(0 0,100% 0,82% 100%,0 100%)}
+.new-badge{position:absolute;top:10px;right:44px;z-index:3;background:var(--naranja);color:#fff;font-family:'JetBrains Mono',monospace;font-size:.58rem;padding:3px 8px;border-radius:3px;letter-spacing:.08em}
+.fav-btn{position:absolute;top:10px;right:10px;z-index:2;background:rgba(255,255,255,.9);width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1rem;transition:var(--transition)}
+.fav-btn:hover,.fav-btn.active{background:#fff;color:#e74c3c}
+.discount-badge{position:absolute;bottom:10px;left:10px;background:var(--oscuro);color:#fff;font-family:'JetBrains Mono',monospace;font-size:.68rem;padding:3px 8px;border-radius:3px}
+.prod-info{padding:14px}
+.prod-name{font-family:'Barlow Condensed',sans-serif;font-size:1.1rem;font-weight:700;color:var(--oscuro);margin-bottom:4px;line-height:1.1;cursor:pointer}
+.prod-price{display:flex;align-items:baseline;gap:8px;margin-bottom:11px}
+.price-now{font-size:1rem;font-weight:700;color:var(--oscuro);font-family:'JetBrains Mono',monospace}
+.price-old{font-size:.82rem;color:#aaa;text-decoration:line-through;font-family:'JetBrains Mono',monospace}
+.prod-sizes{display:flex;gap:4px;margin-bottom:9px;flex-wrap:wrap}
+.size-btn{font-size:.68rem;font-weight:600;padding:4px 7px;border:1px solid rgba(0,0,0,.15);border-radius:3px;color:var(--oscuro);transition:var(--transition);font-family:'JetBrains Mono',monospace}
+.size-btn:hover,.size-btn.selected{background:var(--verde);color:#fff;border-color:var(--verde)}
+.prod-colors{display:flex;gap:5px;margin-bottom:12px}
+.color-dot{width:15px;height:15px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:var(--transition);flex-shrink:0}
+.color-dot:hover,.color-dot.selected{border-color:var(--oscuro);transform:scale(1.2)}
+.add-cart-btn{width:100%;background:var(--verde);color:#fff;padding:10px;border-radius:4px;font-size:.82rem;font-weight:600;letter-spacing:.04em;transition:var(--transition);display:flex;align-items:center;justify-content:center;gap:6px}
+.add-cart-btn:hover{background:var(--verde-light)}
+.add-cart-btn:active{transform:scale(.98)}
+
+/* QUICK VIEW */
+.qv-trigger{position:absolute;bottom:0;left:0;right:0;z-index:4;background:rgba(26,26,26,.82);color:#fff;padding:10px 12px;font-size:.72rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;font-family:'JetBrains Mono',monospace;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;transform:translateY(100%);transition:transform .28s ease,background .2s}
+.prod-card:hover .qv-trigger{transform:translateY(0)}
+.qv-trigger:hover{background:var(--naranja)}
+#qv-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.68);z-index:5000;align-items:center;justify-content:center;padding:16px}
+#qv-overlay.open{display:flex;animation:fadeOverlay .28s ease}
+@keyframes qvIn{from{opacity:0;transform:scale(.93) translateY(18px)}to{opacity:1;transform:scale(1) translateY(0)}}
+.qv-modal{background:var(--gris-claro);border-radius:10px;max-width:860px;width:100%;max-height:88vh;overflow:hidden;display:grid;grid-template-columns:1fr 1fr;position:relative;animation:qvIn .38s cubic-bezier(.34,1.2,.64,1)}
+.qv-close{position:absolute;top:14px;right:14px;z-index:10;background:rgba(0,0,0,.48);color:#fff;width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.85rem;cursor:pointer;border:none;transition:background .2s;flex-shrink:0}
+.qv-close:hover{background:var(--naranja)}
+.qv-gallery{position:relative;background:#e0deda;overflow:hidden}
+.qv-main-img{width:100%;height:100%;object-fit:cover;max-height:520px;transition:opacity .3s ease}
+.qv-thumbs{position:absolute;bottom:12px;left:12px;display:flex;gap:6px}
+.qv-thumb{width:54px;height:54px;object-fit:cover;border-radius:5px;border:2px solid transparent;cursor:pointer;transition:border-color .2s,transform .2s;background:#ccc}
+.qv-thumb:hover{transform:scale(1.06)}
+.qv-thumb.active{border-color:var(--naranja)}
+.qv-info{padding:28px;overflow-y:auto;max-height:88vh;display:flex;flex-direction:column;gap:0;background:var(--blanco)}
+.qv-terrain-tag{font-family:'JetBrains Mono',monospace;font-size:.58rem;color:var(--naranja);letter-spacing:.18em;text-transform:uppercase;margin-bottom:8px}
+.qv-name{font-family:'Barlow Condensed',sans-serif;font-size:2rem;font-weight:800;color:var(--oscuro);text-transform:uppercase;line-height:.96;margin-bottom:12px}
+.qv-price-row{display:flex;align-items:baseline;gap:10px;margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid rgba(0,0,0,.07)}
+.qv-price-now{font-family:'JetBrains Mono',monospace;font-size:1.3rem;font-weight:700;color:var(--oscuro)}
+.qv-price-old{font-family:'JetBrains Mono',monospace;font-size:.9rem;color:#bbb;text-decoration:line-through}
+.qv-desc{font-size:.84rem;color:#666;line-height:1.7;margin-bottom:18px}
+.qv-sub-label{font-family:'JetBrains Mono',monospace;font-size:.58rem;font-weight:600;color:#999;text-transform:uppercase;letter-spacing:.12em;margin-bottom:8px}
+.qv-sizes{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
+.qv-size-btn{font-size:.72rem;font-weight:600;padding:6px 12px;border:1.5px solid rgba(0,0,0,.14);border-radius:4px;color:var(--oscuro);background:var(--gris-claro);transition:var(--transition);font-family:'JetBrains Mono',monospace;cursor:pointer}
+.qv-size-btn:hover,.qv-size-btn.selected{background:var(--verde);color:#fff;border-color:var(--verde)}
+.qv-colors{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px}
+.qv-color-dot{width:22px;height:22px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:var(--transition);flex-shrink:0}
+.qv-color-dot:hover,.qv-color-dot.selected{border-color:var(--oscuro);transform:scale(1.2)}
+.qv-actions{margin-top:auto;display:flex;flex-direction:column;gap:9px}
+.qv-add-btn{width:100%;background:var(--verde);color:#fff;padding:13px;border-radius:4px;font-size:.88rem;font-weight:600;letter-spacing:.04em;transition:background .25s,transform .15s;display:flex;align-items:center;justify-content:center;gap:7px;cursor:pointer;border:none;font-family:'Inter',sans-serif}
+.qv-add-btn:hover{background:var(--verde-light)}
+.qv-add-btn:active{transform:scale(.98)}
+.qv-add-btn.added{background:#27ae60}
+.qv-full-link{width:100%;background:none;border:1.5px solid rgba(0,0,0,.12);border-radius:4px;padding:10px;font-size:.8rem;color:var(--oscuro);font-family:'Inter',sans-serif;cursor:pointer;transition:var(--transition);letter-spacing:.02em}
+.qv-full-link:hover{border-color:var(--oscuro);background:rgba(0,0,0,.03)}
+@media(max-width:640px){.qv-modal{grid-template-columns:1fr;max-height:92vh;overflow-y:auto}.qv-gallery{height:240px}.qv-main-img{max-height:240px}.qv-info{max-height:none}}
+
+/* LOOKBOOK */
+.lookbook-section{background:#111;padding:80px 0 88px}
+.lookbook-inner{max-width:1400px;margin:0 auto;padding:0 24px}
+.lookbook-head{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:16px;margin-bottom:38px}
+.lookbook-head-left .section-label{color:var(--naranja)}
+.lookbook-head-left .section-title{color:#fff}
+.lookbook-sub{font-size:.85rem;color:rgba(255,255,255,.32);margin-top:8px;line-height:1.65;max-width:360px}
+.lookbook-ig{font-family:'JetBrains Mono',monospace;font-size:.68rem;color:rgba(255,255,255,.28);letter-spacing:.1em;display:flex;align-items:center;gap:10px;border:1px solid rgba(255,255,255,.1);border-radius:30px;padding:8px 16px;transition:var(--transition);cursor:pointer;white-space:nowrap;align-self:flex-end}
+.lookbook-ig:hover{color:rgba(255,255,255,.7);border-color:rgba(255,255,255,.3)}
+.lookbook-masonry{columns:4;column-gap:10px}
+.lb-item{break-inside:avoid;margin-bottom:10px;border-radius:6px;overflow:hidden;position:relative;cursor:pointer;display:block;background:#1a1a1a}
+.lb-item img{width:100%;height:auto;display:block;transition:transform .55s ease;filter:brightness(.88)}
+.lb-item:hover img{transform:scale(1.07);filter:brightness(.7)}
+.lb-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.78) 0%,rgba(0,0,0,.0) 50%);opacity:0;transition:opacity .32s ease}
+.lb-item:hover .lb-overlay{opacity:1}
+.lb-meta{position:absolute;bottom:0;left:0;right:0;padding:16px;transform:translateY(10px);transition:transform .32s ease;opacity:0}
+.lb-item:hover .lb-meta{transform:translateY(0);opacity:1}
+.lb-terrain-tag{font-family:'JetBrains Mono',monospace;font-size:.52rem;color:var(--naranja);letter-spacing:.18em;text-transform:uppercase;margin-bottom:5px}
+.lb-location{font-family:'Barlow Condensed',sans-serif;font-size:1.15rem;font-weight:800;color:#fff;text-transform:uppercase;letter-spacing:.04em;line-height:1}
+.lb-cta{font-family:'JetBrains Mono',monospace;font-size:.58rem;color:rgba(255,255,255,.55);letter-spacing:.1em;margin-top:5px}
+.lb-item.lb-new{opacity:0;transform:translateY(22px)}
+.lb-item.lb-in{opacity:1;transform:translateY(0);transition:opacity .6s ease,transform .6s ease}
+.lookbook-foot{margin-top:28px;display:flex;align-items:center;justify-content:center;gap:20px}
+.lb-dot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.15)}
+.lb-count{font-family:'JetBrains Mono',monospace;font-size:.62rem;color:rgba(255,255,255,.2);letter-spacing:.1em}
+@media(max-width:1100px){.lookbook-masonry{columns:3}}
+@media(max-width:680px){.lookbook-masonry{columns:2;column-gap:8px}.lb-item{margin-bottom:8px}.lookbook-section{padding:60px 0 68px}}
+@media(max-width:400px){.lookbook-masonry{columns:2}}
+
+/* HISTORIA */
+.historia{background:var(--oscuro);color:#fff;position:relative;overflow:hidden;text-align:center}
+.historia-bg{position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1400&q=80') center/cover no-repeat;opacity:.12}
+.historia-inner{position:relative;z-index:1;padding:96px 24px;max-width:720px;margin:0 auto}
+.historia-icon{margin:0 auto 24px}
+.historia-divider{width:40px;height:2px;background:var(--naranja);margin:18px auto 26px}
+.historia-p{font-size:.95rem;color:rgba(255,255,255,.7);max-width:560px;margin:0 auto 14px;line-height:1.85}
+.historia-p strong{color:#fff}
+.historia-p em{color:var(--naranja);font-style:normal}
+.historia-frase{font-family:'Barlow Condensed',sans-serif;font-size:clamp(1.8rem,4vw,2.8rem);font-weight:800;text-transform:uppercase;color:#fff;margin-top:36px;letter-spacing:.06em;line-height:1.05}
+.historia-frase em{color:var(--naranja);font-style:normal}
+.historia-tags{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:24px}
+.historia-tag{font-family:'JetBrains Mono',monospace;font-size:.62rem;color:rgba(255,255,255,.45);border:1px solid rgba(255,255,255,.12);border-radius:20px;padding:5px 14px;letter-spacing:.1em;text-transform:uppercase}
+
+/* PRODUCT DETAIL */
+#product-detail{display:none;position:fixed;inset:0;z-index:2000;background:var(--gris-claro);overflow-y:auto}
+.detail-inner{max-width:1140px;margin:0 auto;padding:36px 24px}
+.detail-back{display:inline-flex;align-items:center;gap:8px;font-size:.88rem;color:var(--oscuro);margin-bottom:28px;padding:8px 0;opacity:.7;transition:var(--transition)}
+.detail-back:hover{opacity:1}
+.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start}
+.detail-gallery .main-img{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:var(--radius);margin-bottom:10px}
+.thumbs{display:flex;gap:8px;flex-wrap:wrap}
+.thumb{width:76px;height:76px;object-fit:cover;border-radius:6px;cursor:pointer;border:2px solid transparent;transition:var(--transition)}
+.thumb:hover,.thumb.active{border-color:var(--naranja)}
+.detail-info .d-label{font-family:'JetBrains Mono',monospace;font-size:.68rem;color:var(--naranja);letter-spacing:.15em;text-transform:uppercase;margin-bottom:8px}
+.detail-info h1{font-family:'Barlow Condensed',sans-serif;font-size:2.6rem;font-weight:800;color:var(--oscuro);text-transform:uppercase;line-height:.95;margin-bottom:14px}
+.detail-price{font-family:'JetBrains Mono',monospace;font-size:1.7rem;font-weight:700;color:var(--oscuro);margin-bottom:20px}
+.detail-desc{font-size:.9rem;line-height:1.7;color:#666;margin-bottom:24px}
+.tech-table{width:100%;border-collapse:collapse;margin-bottom:24px}
+.tech-table td{padding:8px 12px;font-size:.83rem;border-bottom:1px solid rgba(0,0,0,.06)}
+.tech-table td:first-child{font-family:'JetBrains Mono',monospace;color:#999;font-size:.72rem;text-transform:uppercase;width:44%}
+.tech-table td:last-child{font-weight:500;color:var(--oscuro)}
+.detail-sizes-label{font-size:.78rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;font-family:'JetBrains Mono',monospace}
+.size-guide-link{font-size:.75rem;color:var(--naranja);cursor:pointer;text-decoration:underline}
+.detail-sizes{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}
+.d-size-btn{font-size:.85rem;font-weight:600;padding:10px 16px;border:1.5px solid rgba(0,0,0,.15);border-radius:4px;color:var(--oscuro);cursor:pointer;transition:var(--transition);font-family:'JetBrains Mono',monospace}
+.d-size-btn:hover,.d-size-btn.selected{background:var(--verde);color:#fff;border-color:var(--verde)}
+.detail-colors-label{font-size:.78rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;font-family:'JetBrains Mono',monospace}
+.detail-colors{display:flex;gap:8px;margin-bottom:24px}
+.d-color-dot{width:26px;height:26px;border-radius:50%;cursor:pointer;border:3px solid transparent;transition:var(--transition)}
+.d-color-dot:hover,.d-color-dot.selected{border-color:var(--oscuro)}
+.detail-btns{display:flex;gap:10px;margin-bottom:28px}
+.btn-cart-d{flex:1;background:var(--verde);color:#fff;padding:15px;border-radius:4px;font-size:.95rem;font-weight:600;letter-spacing:.04em;transition:var(--transition)}
+.btn-cart-d:hover{background:var(--verde-light)}
+.btn-cart-d.added{background:var(--naranja)}
+@keyframes addPulse{0%{transform:scale(1)}50%{transform:scale(.96)}100%{transform:scale(1)}}
+.btn-cart-d.adding{animation:addPulse .3s ease}
+.btn-buy-d{flex:1;background:var(--naranja);color:#fff;padding:15px;border-radius:4px;font-size:.95rem;font-weight:600;letter-spacing:.04em;transition:var(--transition)}
+.btn-buy-d:hover{background:var(--naranja-dark)}
+.reviews-section h3{font-family:'Barlow Condensed',sans-serif;font-size:1.4rem;font-weight:700;text-transform:uppercase;margin-bottom:16px}
+.review{padding:14px;background:var(--blanco);border-radius:var(--radius);margin-bottom:10px;box-shadow:var(--shadow)}
+.review-stars{color:#f59e0b;margin-bottom:5px;font-size:.88rem}
+.review-name{font-weight:600;font-size:.85rem;margin-bottom:4px}
+.review-text{font-size:.85rem;color:#777;line-height:1.6}
+
+/* RELATED PRODUCTS */
+.related-section{margin-top:48px;padding-top:32px;border-top:1px solid rgba(0,0,0,.08)}
+.related-title{font-family:'Barlow Condensed',sans-serif;font-size:1.6rem;font-weight:800;text-transform:uppercase;margin-bottom:20px;letter-spacing:.04em}
+.related-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.related-card{background:var(--blanco);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);transition:var(--transition);cursor:pointer}
+.related-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg)}
+.related-card img{width:100%;aspect-ratio:3/4;object-fit:cover}
+.related-card-info{padding:10px 12px}
+.related-card-name{font-family:'Barlow Condensed',sans-serif;font-size:.9rem;font-weight:700;color:var(--oscuro);margin-bottom:3px}
+.related-card-price{font-family:'JetBrains Mono',monospace;font-size:.78rem;color:var(--oscuro)}
+@media(max-width:600px){.related-grid{grid-template-columns:1fr 1fr}}
+
+/* STOCK */
+.stock-badge{display:inline-flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--naranja);margin-bottom:18px;letter-spacing:.06em}
+.stock-badge::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--naranja);animation:pulse 2s ease infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* CART */
+#cart-sidebar{position:fixed;top:0;right:-440px;width:420px;height:100%;background:var(--blanco);z-index:3000;box-shadow:-8px 0 40px rgba(0,0,0,.15);transition:right .35s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column}
+#cart-sidebar.open{right:0}
+.cart-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:2999;opacity:0;pointer-events:none;transition:opacity .3s}
+.cart-overlay.visible{opacity:1;pointer-events:all}
+.cart-header{padding:22px 24px;border-bottom:1px solid rgba(0,0,0,.08);display:flex;justify-content:space-between;align-items:center;flex-shrink:0}
+.cart-header h2{font-family:'Barlow Condensed',sans-serif;font-size:1.4rem;font-weight:800;text-transform:uppercase}
+.cart-close{font-size:1.2rem;color:var(--oscuro);width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:var(--transition)}
+.cart-close:hover{background:rgba(0,0,0,.06)}
+.cart-items{flex:1;overflow-y:auto;padding:12px 24px}
+.cart-item{display:flex;gap:12px;padding:14px 0;border-bottom:1px solid rgba(0,0,0,.06)}
+.cart-item-img{width:68px;height:86px;object-fit:cover;border-radius:4px;flex-shrink:0}
+.cart-item-info{flex:1;min-width:0}
+.cart-item-name{font-family:'Barlow Condensed',sans-serif;font-size:.98rem;font-weight:700;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cart-item-meta{font-family:'JetBrains Mono',monospace;font-size:.68rem;color:#999;margin-bottom:8px}
+.cart-item-qty{display:flex;align-items:center;gap:7px}
+.qty-btn{width:26px;height:26px;border:1px solid rgba(0,0,0,.15);border-radius:4px;font-size:.88rem;transition:var(--transition);display:flex;align-items:center;justify-content:center}
+.qty-btn:hover{background:var(--verde);color:#fff;border-color:var(--verde)}
+.qty-num{font-family:'JetBrains Mono',monospace;font-size:.82rem;min-width:18px;text-align:center}
+.cart-item-right{display:flex;flex-direction:column;align-items:flex-end;gap:8px;flex-shrink:0}
+.cart-item-price{font-family:'JetBrains Mono',monospace;font-size:.88rem;font-weight:600}
+.cart-remove{color:#ccc;font-size:.72rem;cursor:pointer;transition:var(--transition)}
+.cart-remove:hover{color:#e74c3c}
+.cart-footer{padding:18px 24px;border-top:1px solid rgba(0,0,0,.08);flex-shrink:0}
+.discount-row{display:flex;gap:8px;margin-bottom:14px}
+.discount-input{flex:1;border:1px solid rgba(0,0,0,.15);border-radius:4px;padding:9px 12px;font-size:.82rem;outline:none;background:var(--gris-claro);color:var(--oscuro)}
+.discount-input:focus{border-color:var(--verde)}
+.discount-btn{background:var(--verde);color:#fff;padding:9px 14px;border-radius:4px;font-size:.78rem;font-weight:600;white-space:nowrap}
+.cart-totals{margin-bottom:14px}
+.total-row{display:flex;justify-content:space-between;font-size:.88rem;margin-bottom:7px}
+.total-row.final{font-size:1.05rem;font-weight:700;padding-top:10px;border-top:1px solid rgba(0,0,0,.08);margin-top:4px;font-family:'JetBrains Mono',monospace}
+.checkout-btn{width:100%;background:var(--naranja);color:#fff;padding:15px;border-radius:4px;font-size:.95rem;font-weight:700;letter-spacing:.04em;transition:var(--transition)}
+.checkout-btn:hover{background:var(--naranja-dark)}
+.empty-cart{text-align:center;padding:60px 24px;color:#bbb}
+.empty-cart div{font-size:3rem;margin-bottom:12px}
+.empty-cart p{font-size:.9rem}
+
+/* CHECKOUT */
+#checkout{display:none;position:fixed;inset:0;z-index:2000;background:var(--gris-claro);overflow-y:auto}
+.checkout-inner{max-width:760px;margin:0 auto;padding:40px 24px}
+.checkout-inner>h1{font-family:'Barlow Condensed',sans-serif;font-size:2.4rem;font-weight:800;text-transform:uppercase;margin-bottom:28px}
+.progress-bar{display:flex;justify-content:space-between;margin-bottom:36px;position:relative}
+.progress-bar::before{content:'';position:absolute;top:13px;left:0;right:0;height:2px;background:rgba(0,0,0,.1);z-index:0}
+.progress-fill{position:absolute;top:13px;left:0;height:2px;background:var(--naranja);transition:width .4s ease;z-index:0}
+.step-dot{display:flex;flex-direction:column;align-items:center;gap:8px;z-index:1}
+.step-dot .dot{width:28px;height:28px;border-radius:50%;background:#ddd;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;font-family:'JetBrains Mono',monospace;transition:var(--transition)}
+.step-dot.active .dot{background:var(--naranja);color:#fff}
+.step-dot.done .dot{background:var(--verde);color:#fff}
+.step-dot>span:last-child{font-size:.7rem;color:#888;text-transform:uppercase;letter-spacing:.08em;font-family:'JetBrains Mono',monospace}
+.checkout-form{background:var(--blanco);border-radius:var(--radius);padding:28px;box-shadow:var(--shadow);margin-bottom:20px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.form-group{margin-bottom:16px}
+.form-group label{display:block;font-size:.72rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;margin-bottom:5px;color:#888;font-family:'JetBrains Mono',monospace}
+.form-group input,.form-group select{width:100%;border:1.5px solid rgba(0,0,0,.12);border-radius:4px;padding:10px 13px;font-size:.88rem;background:var(--gris-claro);color:var(--oscuro);outline:none;transition:var(--transition);font-family:'Inter',sans-serif}
+.form-group input:focus,.form-group select:focus{border-color:var(--verde)}
+.payment-methods{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px}
+.pay-method{border:2px solid rgba(0,0,0,.1);border-radius:var(--radius);padding:14px;text-align:center;cursor:pointer;transition:var(--transition)}
+.pay-method:hover,.pay-method.selected{border-color:var(--naranja);background:rgba(232,101,26,.05)}
+.pay-method .pm-icon{font-size:1.7rem;margin-bottom:6px}
+.pay-method span{font-size:.78rem;font-weight:500}
+.order-summary{background:var(--verde);color:#fff;border-radius:var(--radius);padding:24px;margin-bottom:20px}
+.order-summary h3{font-family:'Barlow Condensed',sans-serif;font-size:1.3rem;font-weight:800;text-transform:uppercase;margin-bottom:16px}
+.order-item{display:flex;justify-content:space-between;font-size:.875rem;margin-bottom:8px;opacity:.9}
+.order-total{font-family:'JetBrains Mono',monospace;font-size:1.1rem;font-weight:700;text-align:right;padding-top:12px;border-top:1px solid rgba(255,255,255,.2);margin-top:4px}
+.checkout-nav{display:flex;gap:10px;justify-content:flex-end}
+.btn-back-step{border:2px solid rgba(0,0,0,.15);border-radius:4px;padding:11px 22px;font-size:.88rem;font-weight:600;color:var(--oscuro);transition:var(--transition)}
+.btn-back-step:hover{border-color:var(--oscuro)}
+.btn-next-step{background:var(--naranja);color:#fff;border-radius:4px;padding:11px 26px;font-size:.88rem;font-weight:700;transition:var(--transition)}
+.btn-next-step:hover{background:var(--naranja-dark)}
+.success-screen{text-align:center;padding:40px 20px}
+.success-icon{width:72px;height:72px;background:var(--verde);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:2.2rem;margin:0 auto 20px}
+.success-screen h2{font-family:'Barlow Condensed',sans-serif;font-size:2.3rem;font-weight:800;text-transform:uppercase;margin-bottom:10px}
+.success-screen p{color:#777;font-size:.95rem;margin-bottom:28px;line-height:1.6}
+
+/* FOOTER */
+.footer{background:#0D0D0D;color:#fff;padding:0}
+.footer-top{background:var(--verde);padding:36px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px}
+.footer-top-left{display:flex;align-items:center;gap:16px}
+.footer-top-left p{font-size:.85rem;color:rgba(255,255,255,.75);max-width:320px;line-height:1.5}
+.footer-top-right{display:flex;gap:20px;flex-wrap:wrap}
+.footer-trust{display:flex;align-items:center;gap:6px;color:rgba(255,255,255,.8);font-size:.72rem;font-family:'JetBrains Mono',monospace}
+.footer-trust svg{color:var(--naranja)}
+.footer-inner{max-width:1400px;margin:0 auto;padding:48px 24px 0}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1.5fr;gap:40px;margin-bottom:40px;padding-bottom:40px;border-bottom:1px solid rgba(255,255,255,.06)}
+.footer-tagline{font-size:.85rem;color:rgba(255,255,255,.4);line-height:1.65;max-width:260px;margin-top:10px}
+.footer-col h4{font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--naranja);letter-spacing:.2em;text-transform:uppercase;margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid rgba(255,255,255,.06)}
+.footer-col a{display:block;font-size:.85rem;color:rgba(255,255,255,.45);margin-bottom:10px;transition:var(--transition)}
+.footer-col a:hover{color:#fff;padding-left:4px}
+.social-links{display:flex;gap:10px;margin-top:18px}
+.social-btn{width:36px;height:36px;border-radius:6px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;font-size:.88rem;transition:var(--transition)}
+.social-btn:hover{background:var(--naranja);border-color:var(--naranja)}
+.newsletter-wrap{display:flex;gap:8px}
+.newsletter-input{flex:1;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:4px;padding:10px 12px;color:#fff;font-size:.82rem;outline:none;font-family:'Inter',sans-serif;transition:var(--transition)}
+.newsletter-input::placeholder{color:rgba(255,255,255,.3)}
+.newsletter-input:focus{border-color:var(--naranja)}
+.newsletter-btn{background:var(--naranja);color:#fff;padding:10px 14px;border-radius:4px;font-size:.78rem;font-weight:600;white-space:nowrap;transition:var(--transition)}
+.newsletter-btn:hover{background:var(--naranja-dark)}
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;padding:20px 24px;flex-wrap:wrap;gap:12px;max-width:1400px;margin:0 auto}
+.footer-bottom p{font-size:.75rem;color:rgba(255,255,255,.25)}
+.payment-icons{display:flex;gap:6px;flex-wrap:wrap}
+.pay-icon{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);border-radius:4px;padding:4px 10px;font-size:.65rem;color:rgba(255,255,255,.4);font-family:'JetBrains Mono',monospace}
+
+/* TOAST */
+.toast-wrap{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:9999;display:flex;flex-direction:column;gap:8px;pointer-events:none;width:max-content;max-width:calc(100vw - 32px)}
+.toast{background:var(--oscuro);color:#fff;padding:13px 18px;border-radius:8px;font-size:.85rem;display:flex;align-items:center;gap:10px;box-shadow:var(--shadow-lg);animation:toastIn .3s ease;pointer-events:all;min-width:240px}
+.toast-close{color:rgba(255,255,255,.4);font-size:.88rem;margin-left:auto;cursor:pointer;flex-shrink:0}
+.toast-link{background:var(--naranja);color:#fff;border-radius:4px;padding:4px 10px;font-size:.72rem;font-weight:600;margin-left:8px;cursor:pointer;flex-shrink:0}
+@keyframes toastIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+
+/* MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:4000;align-items:center;justify-content:center;padding:16px}
+.modal-overlay.open{display:flex}
+.modal{background:var(--blanco);border-radius:var(--radius);padding:28px;max-width:480px;width:100%;box-shadow:var(--shadow-lg)}
+.modal h3{font-family:'Barlow Condensed',sans-serif;font-size:1.7rem;font-weight:800;text-transform:uppercase;margin-bottom:18px}
+.modal table{width:100%;border-collapse:collapse;font-size:.85rem}
+.modal table th{background:var(--verde);color:#fff;padding:9px 12px;text-align:left;font-family:'JetBrains Mono',monospace;font-size:.72rem;text-transform:uppercase}
+.modal table td{padding:9px 12px;border-bottom:1px solid rgba(0,0,0,.06)}
+.modal table tr:nth-child(even) td{background:rgba(0,0,0,.02)}
+.modal-close-btn{background:var(--oscuro);color:#fff;padding:10px 20px;border-radius:4px;font-size:.85rem;font-weight:600;margin-top:18px;width:100%}
+.modal-close-btn:hover{background:#333}
+
+/* FILTER MODAL MOBILE */
+.filter-modal{display:none;position:fixed;inset:0;z-index:3500;align-items:flex-end}
+.filter-modal.open{display:flex}
+.filter-modal-overlay{position:absolute;inset:0;background:rgba(0,0,0,.55)}
+.filter-modal-panel{position:relative;z-index:1;background:var(--blanco);width:100%;max-height:80vh;overflow-y:auto;border-radius:16px 16px 0 0;padding:24px}
+.filter-modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;padding-bottom:14px;border-bottom:1px solid rgba(0,0,0,.08)}
+.filter-modal-header h3{font-family:'Barlow Condensed',sans-serif;font-size:1.3rem;font-weight:800;text-transform:uppercase}
+.filter-modal-close{font-size:1.1rem;color:var(--oscuro);width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.06)}
+.filter-modal-apply{width:100%;background:var(--naranja);color:#fff;padding:13px;border-radius:4px;font-size:.95rem;font-weight:700;margin-top:20px;letter-spacing:.04em;transition:var(--transition)}
+.filter-modal-apply:hover{background:var(--naranja-dark)}
+
+/* BACK TOP */
+#back-top{position:fixed;bottom:76px;right:22px;width:42px;height:42px;background:var(--verde);color:#fff;border-radius:50%;display:none;align-items:center;justify-content:center;font-size:.95rem;cursor:pointer;box-shadow:var(--shadow-lg);transition:var(--transition);z-index:100}
+#back-top:hover{background:var(--verde-light)}
+#back-top.visible{display:flex}
+
+/* FLOATING CART (mobile) */
+#float-cart{position:fixed;bottom:22px;right:22px;background:var(--naranja);color:#fff;border-radius:50px;padding:14px 22px;display:none;align-items:center;gap:10px;font-size:.85rem;font-weight:600;box-shadow:0 6px 24px rgba(232,101,26,.4);transition:var(--transition);z-index:100;cursor:pointer;font-family:'Inter',sans-serif}
+#float-cart:hover{background:var(--naranja-dark);transform:translateY(-2px)}
+#float-cart .fc-count{background:#fff;color:var(--naranja);font-family:'JetBrains Mono',monospace;font-size:.7rem;font-weight:700;padding:2px 8px;border-radius:20px}
+#float-cart.visible{display:flex;animation:floatIn .4s ease}
+@keyframes floatIn{from{opacity:0;transform:translateY(20px) scale(.9)}to{opacity:1;transform:translateY(0) scale(1)}}
+@media(min-width:900px){#float-cart{display:none !important}}
+
+/* Prevent accidental horizontal scroll globally */
+html{overflow-x:hidden}
+
+/* ═══════════════════════════════════════
+   RESPONSIVE — cobertura completa mobile
+═══════════════════════════════════════ */
+html{overflow-x:hidden}
+
+/* ── Hamburger → X animation ── */
+.hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.hamburger.open span:nth-child(2){opacity:0;transform:scaleX(0)}
+.hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+
+/* Mobile menu overlay */
+#mobile-overlay{display:none;position:fixed;inset:0;z-index:998;background:rgba(0,0,0,.5);backdrop-filter:blur(2px)}
+#mobile-overlay.open{display:block}
+
+/* ── 1100px: tablet landscape ── */
+@media(max-width:1100px){
+  .products-grid{grid-template-columns:repeat(2,1fr)}
+  .footer-grid{grid-template-columns:1fr 1fr;gap:28px}
+}
+
+/* ── 900px: tablet portrait / hamburger breakpoint ── */
+@media(max-width:900px){
+  .filters{display:none}
+  .nav-cats{display:none}
+  .search-bar{display:none}
+  .hamburger{display:flex}
+  .detail-grid{grid-template-columns:1fr}
+  .cats-grid{grid-template-columns:1fr 1fr}
+  .filter-mobile-btn{display:flex}
+}
+
+/* ── 768px: reducir padding de secciones ── */
+@media(max-width:768px){
+  .section{padding:52px 20px}
+  .historia-inner{padding:64px 20px}
+  .lookbook-section{padding:56px 0 64px}
+  .lookbook-inner{padding:0 20px}
+}
+
+/* ── 600px: móvil estándar ── */
+@media(max-width:600px){
+  /* Hero */
+  .hero-content{padding:0 20px}
+  .hero-sub{font-size:.92rem;max-width:100%;margin-bottom:24px}
+  .btn-primary,.btn-outline{padding:12px 22px;font-size:.88rem}
+  .hero-ctas{gap:10px}
+  /* Trust bar */
+  .trust-bar{padding:10px 12px;flex-wrap:wrap;justify-content:center;gap:2px}
+  .trust-item{padding:3px 10px;font-size:.65rem;gap:5px}
+  .trust-sep{display:none}
+  /* Sections */
+  .section{padding:44px 16px}
+  .historia-inner{padding:56px 16px}
+  .lookbook-section{padding:44px 0 52px}
+  .lookbook-inner{padding:0 16px}
+  .lookbook-head{flex-direction:column;align-items:flex-start;gap:10px;margin-bottom:24px}
+  .lookbook-ig{align-self:flex-start}
+  /* Categories */
+  .cats-grid{grid-template-columns:1fr}
+  .cat-card{height:200px}
+  /* Catalog */
+  .products-grid{grid-template-columns:1fr 1fr}
+  /* Cart */
+  #cart-sidebar{width:100%;right:-100%}
+  /* Checkout */
+  .form-row{grid-template-columns:1fr}
+  .detail-btns{flex-direction:column}
+  /* Footer */
+  .footer-grid{grid-template-columns:1fr}
+  .payment-methods{grid-template-columns:1fr}
+}
+
+/* ── 420px: móvil pequeño / 1 columna ── */
+@media(max-width:420px){
+  .products-grid{grid-template-columns:1fr}
+  .nav-inner{padding:0 14px;gap:6px}
+  /* Ocultar botones secundarios en nav para no saturar ── */
+  #theme-toggle{display:none}
+  .section{padding:36px 14px}
+  .historia-inner{padding:48px 14px}
+  .lookbook-section{padding:36px 0 44px}
+  .lookbook-inner{padding:0 14px}
+  .lookbook-masonry{column-gap:6px}
+  .lb-item{margin-bottom:6px}
+}
+
+/* ── Popup, QV y checkout en móvil ── */
+@media(max-width:520px){
+  #welcome-popup{padding:10px}
+  .popup-box{max-height:92vh;overflow-y:auto}
+  .popup-code-box{flex-wrap:wrap;gap:8px}
+  .popup-code-val{font-size:1.2rem}
+  .popup-copy-btn{width:100%;text-align:center}
+  .popup-body{padding:18px 20px 20px}
+  .checkout-form{padding:18px}
+  .checkout-inner{padding:16px 14px}
+}
+@media(max-width:480px){
+  #qv-overlay{padding:0}
+  .qv-modal{border-radius:10px 10px 0 0;margin-top:auto;max-height:96vh}
+  .qv-info{padding:16px 18px 20px}
+}
+
+/* WELCOME POPUP */
+#welcome-popup{display:none;position:fixed;inset:0;z-index:9000;background:rgba(0,0,0,.65);align-items:center;justify-content:center;padding:16px}
+@keyframes fadeOverlay{from{opacity:0}to{opacity:1}}
+@keyframes popupIn{from{opacity:0;transform:scale(.88) translateY(24px)}to{opacity:1;transform:scale(1) translateY(0)}}
+.popup-showing{animation:fadeOverlay .35s ease}
+.popup-box{background:var(--gris-claro);border-radius:12px;max-width:500px;width:100%;overflow:hidden;position:relative;animation:popupIn .45s cubic-bezier(0.34,1.56,0.64,1)}
+.popup-hero{height:190px;background:url('https://images.unsplash.com/photo-1551632811-561732d1e306?w=800&q=80') center/cover no-repeat;position:relative}
+.popup-hero-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(26,26,26,.2) 0%,rgba(45,74,62,.9) 100%)}
+.popup-close{position:absolute;top:14px;right:14px;background:rgba(255,255,255,.18);width:32px;height:32px;border-radius:50%;color:#fff;font-size:.88rem;display:flex;align-items:center;justify-content:center;cursor:pointer;border:1px solid rgba(255,255,255,.2);transition:background .2s;z-index:1}
+.popup-close:hover{background:rgba(255,255,255,.32)}
+.popup-hero-text{position:absolute;bottom:0;left:0;right:0;padding:18px 26px;z-index:1}
+.popup-eyebrow{font-family:'JetBrains Mono',monospace;font-size:.6rem;color:rgba(255,255,255,.65);letter-spacing:.2em;text-transform:uppercase;margin-bottom:6px}
+.popup-headline{font-family:'Barlow Condensed',sans-serif;font-size:2.3rem;font-weight:800;color:#fff;text-transform:uppercase;line-height:.96}
+.popup-headline em{color:var(--naranja);font-style:normal}
+.popup-body{padding:22px 26px 24px}
+.popup-sub{font-size:.85rem;color:#666;line-height:1.65;margin-bottom:18px}
+.popup-code-box{background:var(--oscuro);border-radius:6px;padding:13px 18px;display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;gap:12px}
+.popup-code-label{font-family:'JetBrains Mono',monospace;font-size:.55rem;color:rgba(255,255,255,.4);letter-spacing:.15em;text-transform:uppercase;margin-bottom:5px}
+.popup-code-val{font-family:'JetBrains Mono',monospace;font-size:1.55rem;font-weight:700;color:#fff;letter-spacing:.1em}
+.popup-copy-btn{background:var(--naranja);color:#fff;padding:9px 16px;border-radius:4px;font-size:.78rem;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;transition:background .2s;flex-shrink:0;border:none}
+.popup-copy-btn:hover{background:var(--naranja-dark)}
+.popup-cta{width:100%;background:var(--verde);color:#fff;padding:13px;border-radius:4px;font-size:.9rem;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;letter-spacing:.04em;transition:background .2s;margin-bottom:10px;border:none}
+.popup-cta:hover{background:var(--verde-light)}
+.popup-skip{width:100%;background:none;border:none;padding:7px;font-size:.78rem;color:#bbb;cursor:pointer;font-family:'Inter',sans-serif;transition:color .2s}
+.popup-skip:hover{color:#888}
+.popup-validity{font-family:'JetBrains Mono',monospace;font-size:.58rem;color:#bbb;text-align:center;margin-top:10px;letter-spacing:.05em}
+
+/* ══════════════════════════════════════════════════
+   DARK MODE  ·  data-theme="dark" on <html>
+══════════════════════════════════════════════════ */
+
+/* Smooth transition when toggling (class added briefly by JS) */
+.theme-transitioning *{transition:background-color .32s ease,color .32s ease,border-color .32s ease,box-shadow .32s ease !important}
+
+/* ── Core variable overrides ── */
+[data-theme="dark"]{
+  --gris-claro:#111111;
+  --blanco:#1C1C1C;
+  --oscuro:#EDE8E1;
+  --shadow:0 4px 20px rgba(0,0,0,.65);
+  --shadow-lg:0 8px 40px rgba(0,0,0,.85);
+}
+
+/* ── Re-darken elements that used --oscuro as BG ── */
+[data-theme="dark"] .trust-bar{background:#060606}
+[data-theme="dark"] .historia{background:#090909}
+[data-theme="dark"] .discount-badge{background:#2C2C2C;color:#ccc}
+[data-theme="dark"] .toast{background:#252525}
+[data-theme="dark"] .popup-code-box{background:#0A0A0A}
+[data-theme="dark"] .modal-close-btn{background:#2A2A2A;color:var(--oscuro)}
+[data-theme="dark"] .modal-close-btn:hover{background:#333}
+
+/* ── Section titles & labels ── */
+[data-theme="dark"] .section-title{color:var(--oscuro)}
+
+/* ── Catalog section with white bg ── */
+[data-theme="dark"] section.section[style*="background:var(--blanco)"]{background:#181818 !important}
+
+/* ── Filters sidebar ── */
+[data-theme="dark"] .filters-inner{border:1px solid rgba(255,255,255,.06)}
+[data-theme="dark"] .filter-title{border-color:rgba(255,255,255,.07)}
+[data-theme="dark"] .filter-group-title{color:#555}
+[data-theme="dark"] .filter-check{color:var(--oscuro)}
+[data-theme="dark"] .filter-btn-clr{border-color:rgba(255,255,255,.1);color:var(--oscuro)}
+[data-theme="dark"] .filter-btn-clr:hover{background:var(--naranja);border-color:var(--naranja);color:#fff}
+
+/* ── Product cards ── */
+[data-theme="dark"] .prod-card{background:#1E1E1E}
+[data-theme="dark"] .prod-img-wrap{background:#252525}
+[data-theme="dark"] .price-old{color:#4A4A4A}
+[data-theme="dark"] .size-btn{border-color:rgba(255,255,255,.1);background:#252525;color:var(--oscuro)}
+[data-theme="dark"] .size-btn:hover,[data-theme="dark"] .size-btn.selected{background:var(--verde);color:#fff;border-color:var(--verde)}
+[data-theme="dark"] .add-cart-btn:active{transform:scale(.98)}
+[data-theme="dark"] .fav-btn{background:rgba(30,30,30,.92)}
+
+/* ── Product detail panel ── */
+[data-theme="dark"] .detail-back{color:var(--oscuro)}
+[data-theme="dark"] .detail-desc{color:#888}
+[data-theme="dark"] .tech-table td{border-color:rgba(255,255,255,.06)}
+[data-theme="dark"] .tech-table td:first-child{color:#555}
+[data-theme="dark"] .tech-table td:last-child{color:var(--oscuro)}
+[data-theme="dark"] .d-size-btn{border-color:rgba(255,255,255,.1);background:#252525;color:var(--oscuro)}
+[data-theme="dark"] .d-size-btn:hover,[data-theme="dark"] .d-size-btn.selected{background:var(--verde);color:#fff;border-color:var(--verde)}
+[data-theme="dark"] .d-color-dot.selected{border-color:var(--oscuro)}
+[data-theme="dark"] .detail-sizes-label{color:var(--oscuro)}
+[data-theme="dark"] .detail-colors-label{color:var(--oscuro)}
+[data-theme="dark"] .size-guide-link{color:var(--naranja)}
+[data-theme="dark"] .review{background:#232323}
+[data-theme="dark"] .review-name{color:var(--oscuro)}
+[data-theme="dark"] .review-text{color:#888}
+
+/* ── Cart sidebar ── */
+[data-theme="dark"] #cart-sidebar{border-left:1px solid rgba(255,255,255,.06)}
+[data-theme="dark"] .cart-header{border-color:rgba(255,255,255,.07)}
+[data-theme="dark"] .cart-close{color:var(--oscuro)}
+[data-theme="dark"] .cart-close:hover{background:rgba(255,255,255,.08)}
+[data-theme="dark"] .cart-item{border-color:rgba(255,255,255,.06)}
+[data-theme="dark"] .cart-item-name{color:var(--oscuro)}
+[data-theme="dark"] .cart-item-meta{color:#555}
+[data-theme="dark"] .cart-item-price{color:var(--oscuro)}
+[data-theme="dark"] .qty-btn{border-color:rgba(255,255,255,.1);background:#252525;color:var(--oscuro)}
+[data-theme="dark"] .qty-btn:hover{background:var(--verde);color:#fff;border-color:var(--verde)}
+[data-theme="dark"] .cart-footer{border-color:rgba(255,255,255,.07)}
+[data-theme="dark"] .discount-input{background:#252525;border-color:rgba(255,255,255,.1);color:var(--oscuro)}
+[data-theme="dark"] .discount-input:focus{border-color:var(--verde)}
+[data-theme="dark"] .total-row{color:var(--oscuro)}
+[data-theme="dark"] .total-row.final{border-color:rgba(255,255,255,.08)}
+[data-theme="dark"] .empty-cart{color:#3A3A3A}
+
+/* ── Checkout ── */
+[data-theme="dark"] .checkout-form{background:#1A1A1A;box-shadow:none;border:1px solid rgba(255,255,255,.06)}
+[data-theme="dark"] .checkout-inner>h1{color:var(--oscuro)}
+[data-theme="dark"] .form-group label{color:#555}
+[data-theme="dark"] .form-group input,[data-theme="dark"] .form-group select{background:#222;border-color:rgba(255,255,255,.1);color:var(--oscuro)}
+[data-theme="dark"] .form-group input:focus,[data-theme="dark"] .form-group select:focus{border-color:var(--verde)}
+[data-theme="dark"] .pay-method{border-color:rgba(255,255,255,.1);background:#222;color:var(--oscuro)}
+[data-theme="dark"] .pay-method:hover,[data-theme="dark"] .pay-method.selected{border-color:var(--naranja);background:rgba(232,101,26,.12)}
+[data-theme="dark"] .btn-back-step{border-color:rgba(255,255,255,.14);color:var(--oscuro)}
+[data-theme="dark"] .btn-back-step:hover{border-color:var(--oscuro)}
+[data-theme="dark"] .progress-bar::before{background:rgba(255,255,255,.1)}
+[data-theme="dark"] .step-dot>span:last-child{color:#555}
+[data-theme="dark"] .success-screen h2{color:var(--oscuro)}
+[data-theme="dark"] .success-screen p{color:#777}
+[data-theme="dark"] .order-summary h3{color:#fff}
+
+/* ── Modals ── */
+[data-theme="dark"] .modal{background:#1A1A1A;border:1px solid rgba(255,255,255,.07)}
+[data-theme="dark"] .modal h3{color:var(--oscuro)}
+[data-theme="dark"] .modal table td{border-color:rgba(255,255,255,.06);color:var(--oscuro)}
+[data-theme="dark"] .modal table tr:nth-child(even) td{background:rgba(255,255,255,.03)}
+[data-theme="dark"] .filter-modal-panel{background:#1A1A1A}
+[data-theme="dark"] .filter-modal-header{border-color:rgba(255,255,255,.07)}
+[data-theme="dark"] .filter-modal-header h3{color:var(--oscuro)}
+[data-theme="dark"] .filter-modal-close{background:rgba(255,255,255,.08);color:var(--oscuro)}
+[data-theme="dark"] .filter-check{color:var(--oscuro)}
+
+/* ── Quick View ── */
+[data-theme="dark"] .qv-gallery{background:#1A1A1A}
+[data-theme="dark"] .qv-info{background:#161616}
+[data-theme="dark"] .qv-price-row{border-color:rgba(255,255,255,.07)}
+[data-theme="dark"] .qv-desc{color:#888}
+[data-theme="dark"] .qv-sub-label{color:#555}
+[data-theme="dark"] .qv-size-btn{background:#222;border-color:rgba(255,255,255,.1);color:var(--oscuro)}
+[data-theme="dark"] .qv-size-btn:hover,[data-theme="dark"] .qv-size-btn.selected{background:var(--verde);border-color:var(--verde);color:#fff}
+[data-theme="dark"] .qv-color-dot.selected{border-color:var(--oscuro)}
+[data-theme="dark"] .qv-full-link{border-color:rgba(255,255,255,.1);color:var(--oscuro)}
+[data-theme="dark"] .qv-full-link:hover{background:rgba(255,255,255,.04)}
+
+/* ── Welcome popup ── */
+[data-theme="dark"] .popup-box{background:#181818}
+[data-theme="dark"] .popup-sub{color:#777}
+[data-theme="dark"] .popup-validity{color:#444}
+[data-theme="dark"] .popup-skip{color:#555}
+[data-theme="dark"] .popup-skip:hover{color:#888}
+
+/* ── Dark mode toggle button ── */
+#theme-toggle{position:relative;overflow:hidden}
+.t-icon{display:flex;align-items:center;justify-content:center;transition:transform .35s ease,opacity .35s ease;width:100%;height:100%}
+.t-sun{position:absolute;inset:0;transform:translateY(-22px);opacity:0}
+[data-theme="dark"] .t-moon{transform:translateY(22px);opacity:0}
+[data-theme="dark"] .t-sun{transform:translateY(0);opacity:1}
+
+/* ── SHIPPING PROGRESS BAR ── */
+.ship-bar{padding:13px 20px 11px;border-bottom:1px solid rgba(0,0,0,.07)}
+.ship-bar-msg{font-size:.72rem;color:#888;display:flex;justify-content:space-between;align-items:center;margin-bottom:7px}
+.ship-bar-msg strong{color:var(--oscuro);font-weight:600}
+.ship-bar-msg.is-free{color:var(--verde);font-weight:600;font-size:.74rem;justify-content:center;gap:6px}
+.ship-bar-track{height:3px;background:rgba(0,0,0,.08);border-radius:2px;overflow:hidden}
+.ship-bar-fill{height:100%;border-radius:2px;transition:width .6s cubic-bezier(.34,1.2,.64,1)}
+.ship-bar-fill.filling{background:var(--verde);opacity:.55}
+.ship-bar-fill.full{background:var(--verde)}
+[data-theme="dark"] .ship-bar{border-color:rgba(255,255,255,.07)}
+[data-theme="dark"] .ship-bar-track{background:rgba(255,255,255,.1)}
+[data-theme="dark"] .ship-bar-msg strong{color:var(--oscuro)}
+
+/* ── SOLD-OUT SIZES ── */
+.size-btn.sold-out,.d-size-btn.sold-out,.qv-size-btn.sold-out{
+  opacity:.3;text-decoration:line-through;cursor:not-allowed;
+  background:none !important;color:inherit !important;
+  border-color:rgba(0,0,0,.1) !important;transform:none !important;
+}
+[data-theme="dark"] .size-btn.sold-out,[data-theme="dark"] .d-size-btn.sold-out,
+[data-theme="dark"] .qv-size-btn.sold-out{border-color:rgba(255,255,255,.08) !important}
+
+/* ── COMPRAR AHORA (QV) ── */
+.qv-buy-btn{width:100%;background:var(--naranja);color:#fff;padding:12px;border-radius:4px;font-size:.85rem;font-weight:600;letter-spacing:.04em;transition:background .2s,transform .15s;display:flex;align-items:center;justify-content:center;gap:7px;cursor:pointer;border:none;font-family:'Inter',sans-serif}
+.qv-buy-btn:hover{background:var(--naranja-dark)}
+.qv-buy-btn:active{transform:scale(.98)}
+</style>
+</head>
+<body>
+
+<div id="read-bar" role="progressbar" aria-label="Progreso de lectura" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+<nav class="navbar" id="navbar">
+  <div class="nav-inner">
+    <div class="nav-logo" onclick="showHome()" title="TAKU">
+      <svg viewBox="0 0 220 60" xmlns="http://www.w3.org/2000/svg" height="38" aria-label="TAKU">
+        <g transform="translate(0,2) scale(0.52)"><rect x="22" y="0" width="68" height="12" rx="1" fill="white"/><rect x="47" y="0" width="18" height="28" fill="white"/><polygon points="56,16 0,100 112,100" fill="white"/><polygon points="56,46 28,100 84,100" fill="#2D4A3E"/></g>
+        <line x1="64" y1="8" x2="64" y2="52" stroke="white" stroke-width="0.8" opacity="0.35"/>
+        <text x="74" y="41" font-family="'Barlow Condensed',sans-serif" font-size="30" font-weight="700" fill="white" letter-spacing="6">TAKU</text>
+      </svg>
+    </div>
+    <div class="nav-cats">
+      <button onclick="filterCat('all')" class="active" id="cat-all">Todo</button>
+      <button onclick="filterCat('Chaquetas')" id="cat-Chaquetas">Chaquetas</button>
+      <button onclick="filterCat('Pantalones')" id="cat-Pantalones">Pantalones</button>
+      <button onclick="filterCat('Poleras')" id="cat-Poleras">Poleras</button>
+      <button onclick="scrollToHistoria()">Nuestra historia</button>
+    </div>
+    <div class="nav-actions">
+      <input type="search" class="search-bar" placeholder="Buscar producto..." id="searchInput" oninput="handleSearch(this.value)" aria-label="Buscar">
+      <button class="nav-btn" id="search-clear-btn" onclick="clearSearch()" title="Limpiar" style="display:none;font-size:.8rem">✕</button>
+      <button class="nav-btn" title="Favoritos" onclick="showToast('⭐','Favoritos próximamente')">♡</button>
+      <button class="nav-btn" id="theme-toggle" onclick="toggleTheme()" aria-label="Cambiar modo oscuro/claro" title="Modo oscuro">
+        <span class="t-icon t-moon" aria-hidden="true">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </span>
+        <span class="t-icon t-sun" aria-hidden="true">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        </span>
+      </button>
+      <button class="nav-btn" id="cart-nav-btn" onclick="toggleCart()" aria-label="Carrito">🛍<div class="cart-count" id="cart-count">0</div></button>
+      <button class="hamburger" onclick="toggleMobile()" id="ham-btn" aria-label="Menú"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+
+<div id="mobile-overlay" onclick="closeMobile()" aria-hidden="true"></div>
+<div class="mobile-menu" id="mobile-menu">
+  <button onclick="filterCat('all');closeMobile()">Todo</button>
+  <button onclick="filterCat('Chaquetas');closeMobile()">Chaquetas</button>
+  <button onclick="filterCat('Pantalones');closeMobile()">Pantalones</button>
+  <button onclick="filterCat('Poleras');closeMobile()">Poleras</button>
+  <button onclick="scrollToHistoria();closeMobile()">Nuestra historia</button>
+</div>
+
+<div id="main-page">
+
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <div class="hero-tag">// Equipo técnico chileno — Temporada 2025</div>
+      <h1 class="hero-title">Equípate para<br>el <em>terreno</em><br>real</h1>
+      <p class="hero-sub">Ropa técnica diseñada para los Andes, la Patagonia y cada sendero entre medio. Sin excesos, sin compromisos.</p>
+      <div class="hero-ctas">
+        <button class="btn-primary" onclick="scrollToCatalog()">Ver colección</button>
+        <button class="btn-outline" onclick="scrollToHistoria()">Nuestra historia</button>
+      </div>
+    </div>
+    <div class="trust-bar">
+      <div class="trust-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 5v3h-7V8z"/><circle cx="5.5" cy="18.5" r="1.5"/><circle cx="18.5" cy="18.5" r="1.5"/></svg>ENVÍO GRATIS SOBRE $49.990</div>
+      <span class="trust-sep">|</span>
+      <div class="trust-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.5"/></svg>CAMBIOS SIN COSTO</div>
+      <span class="trust-sep">|</span>
+      <div class="trust-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>MATERIALES TÉCNICOS CERTIFICADOS</div>
+      <span class="trust-sep">|</span>
+      <div class="trust-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>DESPACHO A TODO CHILE</div>
+    </div>
+  </section>
+
+  <section class="section" style="background:var(--blanco)">
+    <div class="section-inner">
+      <div style="margin-bottom:40px"><div class="section-label">// Explorar por tipo</div><h2 class="section-title">Categorías</h2></div>
+      <div class="cats-grid">
+        <div class="cat-card" onclick="filterCat('Chaquetas')"><img src="https://images.unsplash.com/photo-1544923246-77307dd654cb?w=800&q=80" alt="Chaquetas" loading="lazy"><div class="cat-overlay"><div class="cat-name">Chaquetas</div><button class="cat-btn">Ver productos →</button></div></div>
+        <div class="cat-card" onclick="filterCat('Pantalones')"><img src="https://images.unsplash.com/photo-1473966968600-fa801b869a1a?w=800&q=80" alt="Pantalones" loading="lazy"><div class="cat-overlay"><div class="cat-name">Pantalones</div><button class="cat-btn">Ver productos →</button></div></div>
+        <div class="cat-card" onclick="filterCat('Poleras')"><img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=800&q=80" alt="Poleras" loading="lazy"><div class="cat-overlay"><div class="cat-name">Poleras</div><button class="cat-btn">Ver productos →</button></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="catalog-section">
+    <div class="section-inner">
+      <div style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:14px;margin-bottom:40px">
+        <div><div class="section-label">// Colección completa</div><h2 class="section-title" id="catalog-title">Todos los productos</h2></div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:.78rem;color:#aaa" id="product-count"></div>
+      </div>
+      <div class="catalog-wrap">
+        <aside class="filters">
+          <div class="filters-inner">
+            <div class="filter-title">Filtros</div>
+            <div class="filter-group"><div class="filter-group-title">Categoría</div>
+              <label class="filter-check"><input type="checkbox" value="Chaquetas" onchange="applyFilters()"> Chaquetas</label>
+              <label class="filter-check"><input type="checkbox" value="Pantalones" onchange="applyFilters()"> Pantalones</label>
+              <label class="filter-check"><input type="checkbox" value="Poleras" onchange="applyFilters()"> Poleras</label>
+            </div>
+            <div class="filter-group"><div class="filter-group-title">Precio máximo</div>
+              <input type="range" class="price-range" min="20000" max="100000" value="100000" id="price-filter" oninput="updatePriceDisplay(this.value);applyFilters()">
+              <div class="price-display" id="price-display">Hasta $100.000</div>
+            </div>
+            <div class="filter-group"><div class="filter-group-title">Talla</div>
+              <label class="filter-check"><input type="checkbox" value="S" onchange="applyFilters()"> S</label>
+              <label class="filter-check"><input type="checkbox" value="M" onchange="applyFilters()"> M</label>
+              <label class="filter-check"><input type="checkbox" value="L" onchange="applyFilters()"> L</label>
+              <label class="filter-check"><input type="checkbox" value="XL" onchange="applyFilters()"> XL</label>
+            </div>
+            <div class="filter-group"><div class="filter-group-title">Terreno</div>
+              <label class="filter-check"><input type="checkbox" value="ALTA MONTAÑA" onchange="applyFilters()"> Alta Montaña</label>
+              <label class="filter-check"><input type="checkbox" value="TRAIL" onchange="applyFilters()"> Trail</label>
+              <label class="filter-check"><input type="checkbox" value="TREKKING" onchange="applyFilters()"> Trekking</label>
+              <label class="filter-check"><input type="checkbox" value="URBANO" onchange="applyFilters()"> Urbano</label>
+            </div>
+            <button class="filter-btn-clr" onclick="clearFilters()">Limpiar filtros</button>
+          </div>
+        </aside>
+        <div class="products-area">
+          <button class="filter-mobile-btn" onclick="openFilterModal()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
+            Filtrar productos
+          </button>
+          <div class="products-grid" id="products-grid" role="list"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LOOKBOOK -->
+  <section class="lookbook-section" id="lookbook-section">
+    <div class="lookbook-inner">
+
+      <div class="lookbook-head">
+        <div class="lookbook-head-left">
+          <div class="section-label">// Lookbook 2025</div>
+          <h2 class="section-title">En el terreno</h2>
+          <p class="lookbook-sub">Equipo TAKU en acción — desde el altiplano hasta los canales australes.</p>
+        </div>
+        <div class="lookbook-ig" onclick="showToast('📷','¡Síguenos en @taku.outdoor!')">
+          📷 @taku.outdoor
+        </div>
+      </div>
+
+      <div class="lookbook-masonry" id="lookbook-masonry">
+
+        <!-- Col flow 1 -->
+        <div class="lb-item lb-new" onclick="filterCat('Chaquetas');scrollToCatalog()" title="Ver chaquetas">
+          <img src="https://images.unsplash.com/photo-1551632811-561732d1e306?w=560&q=82" alt="Senderismo en los Andes" loading="lazy">
+          <div class="lb-overlay"></div>
+          <div class="lb-meta">
+            <div class="lb-terrain-tag">// Alta Montaña</div>
+            <div class="lb-location">Cordillera de los Andes</div>
+            <div class="lb-cta">Ver chaquetas →</div>
+          </div>
+        </div>
+
+        <div class="lb-item lb-new" onclick="filterCat('all');scrollToCatalog()" title="Ver colección">
+          <img src="https://images.unsplash.com/photo-1480497490787-505ec076689f?w=560&q=82" alt="Sendero bosque" loading="lazy">
+          <div class="lb-overlay"></div>
+          <div class="lb-meta">
+            <div class="lb-terrain-tag">// Trail</div>
+            <div class="lb-location">Bosque Valdiviano</div>
+            <div class="lb-cta">Ver colección →</div>
+          </div>
+        </div>
+
+        <div class="lb-item lb-new" onclick="filterCat('Pantalones');scrollToCatalog()" title="Ver pantalones">
+          <img src="https://images.unsplash.com/photo-1473966968600-fa801b869a1a?w=560&q=82" alt="Trekking en la montaña" loading="lazy">
+          <div class="lb-overlay"></div>
+          <div class="lb-meta">
+            <div class="lb-terrain-tag">// Trekking</div>
+            <div class="lb-location">Cerro Castillo</div>
+            <div class="lb-cta">Ver pantalones →</div>
+          </div>
+        </div>
+
+        <!-- Col flow 2 -->
+        <div class="lb-item lb-new" onclick="filterCat('all');scrollToCatalog()" title="Ver colección">
+          <img src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=560&q=82" alt="Lago de montaña Patagonia" loading="lazy">
+          <div class="lb-overlay"></div>
+          <div class="lb-meta">
+            <div class="lb-terrain-tag">// Trekking</div>
+            <div class="lb-location">Torres del Paine</div>
+            <div class="lb-cta">Ver colección →</div>
+          </div>
+        </div>
+
+        <div class="lb-item lb-new" onclick="filterCat('Chaquetas');scrollToCatalog()" title="Ver chaquetas">
+          <img src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=560&q=82" alt="Montañista al atardecer" loading="lazy">
+          <div class="lb-overlay"></div>
+          <div class="lb-meta">
+            <div class="lb-terrain-tag">// Alta Montaña</div>
+            <div class="lb-location">Volcán Villarrica</div>
+            <div class="lb-cta">Ver chaquetas →</div>
+          </div>
+        </div>
+
+        <div class="lb-item lb-new" onclick="filterCat('Poleras');scrollToCatalog()" title="Ver poleras">
+          <img src="https://images.unsplash.com/photo-1503220317375-aaad61436b1b?w=560&q=82" alt="Senderismo ruta larga" loading="lazy">
+          <div class="lb-overlay"></div>
+          <div class="lb-meta">
+            <div class="lb-terrain-tag">// Trekking</div>
+            <div class="lb-location">Sendero de Chile</div>
+            <div class="lb-cta">Ver poleras →</div>
+          </div>
+        </div>
+
+        <!-- Col flow 3 -->
+        <div class="lb-item lb-new" onclick="filterCat('Chaquetas');scrollToCatalog()" title="Ver chaquetas">
+          <img src="https://images.unsplash.com/photo-1519583272095-6433daf26b6e?w=560&q=82" alt="Cumbre nevada" loading="lazy">
+          <div class="lb-overlay"></div>
+          <div class="lb-meta">
+            <div class="lb-terrain-tag">// Alta Montaña</div>
+            <div class="lb-location">Volcán Osorno</div>
+            <div class="lb-cta">Ver chaquetas →</div>
+          </div>
+        </div>
+
+        <div class="lb-item lb-new" onclick="filterCat('all');scrollToCatalog()" title="Ver colección">
+          <img src="https://images.unsplash.com/photo-1431794062232-2a99a5431c6c?w=560&q=82" alt="Terreno volcánico" loading="lazy">
+          <div class="lb-overlay"></div>
+          <div class="lb-meta">
+            <div class="lb-terrain-tag">// Trail</div>
+            <div class="lb-location">Carretera Austral</div>
+            <div class="lb-cta">Ver colección →</div>
+          </div>
+        </div>
+
+        <div class="lb-item lb-new" onclick="filterCat('Pantalones');scrollToCatalog()" title="Ver pantalones">
+          <img src="https://images.unsplash.com/photo-1526676037777-05a232554f77?w=560&q=82" alt="Trail runner en altura" loading="lazy">
+          <div class="lb-overlay"></div>
+          <div class="lb-meta">
+            <div class="lb-terrain-tag">// Trail</div>
+            <div class="lb-location">Atacama</div>
+            <div class="lb-cta">Ver pantalones →</div>
+          </div>
+        </div>
+
+        <!-- Col flow 4 -->
+        <div class="lb-item lb-new" onclick="filterCat('all');scrollToCatalog()" title="Ver colección">
+          <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=560&q=82" alt="Glaciar Patagonia" loading="lazy">
+          <div class="lb-overlay"></div>
+          <div class="lb-meta">
+            <div class="lb-terrain-tag">// Alta Montaña</div>
+            <div class="lb-location">Los Glaciares</div>
+            <div class="lb-cta">Ver colección →</div>
+          </div>
+        </div>
+
+        <div class="lb-item lb-new" onclick="filterCat('Poleras');scrollToCatalog()" title="Ver poleras">
+          <img src="https://images.unsplash.com/photo-1487730116645-74489c95b41b?w=560&q=82" alt="Senderismo en bosque" loading="lazy">
+          <div class="lb-overlay"></div>
+          <div class="lb-meta">
+            <div class="lb-terrain-tag">// Trekking</div>
+            <div class="lb-location">Huilo-Huilo</div>
+            <div class="lb-cta">Ver poleras →</div>
+          </div>
+        </div>
+
+        <div class="lb-item lb-new" onclick="filterCat('Chaquetas');scrollToCatalog()" title="Ver chaquetas">
+          <img src="https://images.unsplash.com/photo-1605096086760-37b0db05f4c5?w=560&q=82" alt="Excursionista en la cima" loading="lazy">
+          <div class="lb-overlay"></div>
+          <div class="lb-meta">
+            <div class="lb-terrain-tag">// Alta Montaña</div>
+            <div class="lb-location">Río Baker</div>
+            <div class="lb-cta">Ver chaquetas →</div>
+          </div>
+        </div>
+
+      </div><!-- /masonry -->
+
+      <div class="lookbook-foot">
+        <div class="lb-dot"></div>
+        <span class="lb-count">12 fotos · Temporada 2025</span>
+        <div class="lb-dot"></div>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="historia" id="historia-section">
+    <div class="historia-bg"></div>
+    <div class="historia-inner">
+      <svg class="historia-icon" viewBox="0 0 112 100" width="80" height="72" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <rect x="22" y="0" width="68" height="12" rx="1" fill="white"/>
+        <rect x="47" y="0" width="18" height="28" fill="white"/>
+        <polygon points="56,16 0,100 112,100" fill="white"/>
+        <polygon points="56,46 28,100 84,100" fill="#1A1A1A"/>
+      </svg>
+      <div class="section-label" style="color:var(--naranja);display:flex;justify-content:center">// Nuestra historia</div>
+      <div class="historia-divider"></div>
+      <p class="historia-p"><strong>TAKU</strong> — en mapudungún, <em>takun</em> significa cubrir, vestir, proteger.</p>
+      <p class="historia-p">El símbolo es la flor del copihue (<em>kopiwe</em>) estilizada — planta sagrada del pueblo mapuche, emblema de valor, libertad y gratitud. La misma flor que crece en los bosques donde nacen nuestros cerros.</p>
+      <div class="historia-frase">Ropa con historia.<br>Para <em>terreno</em> real.</div>
+      <div class="historia-tags">
+        <span class="historia-tag">Diseñado en Chile</span>
+        <span class="historia-tag">Raíz Mapuche</span>
+        <span class="historia-tag">Probado en los Andes</span>
+        <span class="historia-tag">Patagonia</span>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-top">
+      <div class="footer-top-left">
+        <svg viewBox="0 0 220 60" xmlns="http://www.w3.org/2000/svg" height="32">
+          <g transform="translate(0,2) scale(0.52)"><rect x="22" y="0" width="68" height="12" rx="1" fill="white"/><rect x="47" y="0" width="18" height="28" fill="white"/><polygon points="56,16 0,100 112,100" fill="white"/><polygon points="56,46 28,100 84,100" fill="#2D4A3E"/></g>
+          <line x1="64" y1="8" x2="64" y2="52" stroke="white" stroke-width="0.8" opacity="0.3"/>
+          <text x="74" y="41" font-family="'Barlow Condensed',sans-serif" font-size="30" font-weight="700" fill="white" letter-spacing="6">TAKU</text>
+        </svg>
+        <p>Equipo técnico con raíz chilena.<br>Probado donde el terreno exige.</p>
+      </div>
+      <div class="footer-top-right">
+        <div class="footer-trust"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 5v3h-7V8z"/><circle cx="5.5" cy="18.5" r="1.5"/><circle cx="18.5" cy="18.5" r="1.5"/></svg>Envío gratis +$49.990</div>
+        <div class="footer-trust"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.5"/></svg>Cambios sin costo</div>
+      </div>
+    </div>
+    <div class="footer-inner">
+      <div class="footer-grid">
+        <div>
+          <p class="footer-tagline">Ropa outdoor con identidad chilena. Desde los Andes hasta la Patagonia, TAKU está donde el terreno lo exige.</p>
+          <div class="social-links">
+            <a href="#" class="social-btn" title="Instagram">📷</a>
+            <a href="#" class="social-btn" title="TikTok">🎵</a>
+            <a href="#" class="social-btn" title="Facebook">📘</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Empresa</h4>
+          <a href="#">Sobre TAKU</a>
+          <a href="#">Política de cambios</a>
+          <a href="#">Preguntas frecuentes</a>
+          <a href="#">Contacto</a>
+        </div>
+        <div class="footer-col">
+          <h4>Colecciones</h4>
+          <a href="#" onclick="filterCat('Chaquetas');return false">Chaquetas</a>
+          <a href="#" onclick="filterCat('Pantalones');return false">Pantalones</a>
+          <a href="#" onclick="filterCat('Poleras');return false">Poleras</a>
+          <a href="#" onclick="scrollToHistoria();return false">Nuestra historia</a>
+        </div>
+        <div class="footer-col">
+          <h4>Newsletter</h4>
+          <p style="font-size:.78rem;color:rgba(255,255,255,.35);margin-bottom:14px;line-height:1.6">Ofertas exclusivas y lanzamientos para suscriptores.</p>
+          <div class="newsletter-wrap">
+            <input type="email" class="newsletter-input" placeholder="tu@email.com">
+            <button class="newsletter-btn" onclick="showToast('✉️','¡Suscrito con éxito!')">OK →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 TAKU Outdoor — Hecho en Chile 🇨🇱</p>
+      <div class="payment-icons">
+        <div class="pay-icon">VISA</div><div class="pay-icon">MC</div>
+        <div class="pay-icon">WEBPAY</div><div class="pay-icon">TRANSFER</div>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<!-- PRODUCT DETAIL -->
+<div id="product-detail" role="dialog" aria-modal="true">
+  <div class="detail-inner">
+    <button class="detail-back" onclick="closeDetail()">← Volver al catálogo</button>
+    <div class="detail-grid">
+      <div class="detail-gallery">
+        <img class="main-img" id="detail-main-img" src="" alt="">
+        <div class="thumbs" id="detail-thumbs"></div>
+      </div>
+      <div class="detail-info">
+        <div class="d-label" id="detail-terrain"></div>
+        <h1 id="detail-name"></h1>
+        <div class="detail-price" id="detail-price"></div>
+        <p class="detail-desc" id="detail-desc"></p>
+        <table class="tech-table" id="detail-tech"></table>
+        <div class="detail-sizes-label">Talla <span class="size-guide-link" onclick="openSizeGuide()">Guía de tallas</span></div>
+        <div class="detail-sizes" id="detail-sizes"></div>
+        <div class="detail-colors-label">Color</div>
+        <div class="detail-colors" id="detail-colors"></div>
+        <div class="detail-btns">
+          <button class="btn-cart-d" id="detail-add-btn">🛍 Agregar al carro</button>
+          <button class="btn-buy-d" id="detail-buy-btn">⚡ Comprar ahora</button>
+        </div>
+        <div class="reviews-section">
+          <h3>Reseñas</h3>
+          <div id="detail-reviews"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CHECKOUT -->
+<div id="checkout" role="dialog" aria-modal="true">
+  <div class="checkout-inner">
+    <button style="font-size:.88rem;color:var(--oscuro);opacity:.7;margin-bottom:18px" onclick="closeCheckout()">← Volver</button>
+    <h1>Checkout</h1>
+    <div class="progress-bar" id="progress-bar">
+      <div class="step-dot active" id="step1"><div class="dot">1</div><span>Envío</span></div>
+      <div class="step-dot" id="step2"><div class="dot">2</div><span>Pago</span></div>
+      <div class="step-dot" id="step3"><div class="dot">3</div><span>Listo</span></div>
+      <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+    </div>
+    <div id="checkout-content"></div>
+  </div>
+</div>
+
+<!-- CART -->
+<div class="cart-overlay" id="cart-overlay" onclick="toggleCart()"></div>
+<div id="cart-sidebar" role="dialog" aria-modal="true">
+  <div class="cart-header"><h2>Tu carrito</h2><button class="cart-close" onclick="toggleCart()">✕</button></div>
+  <div class="cart-items" id="cart-items-list"></div>
+  <div class="cart-footer" id="cart-footer"></div>
+</div>
+
+<!-- SIZE MODAL -->
+<div class="modal-overlay" id="size-modal">
+  <div class="modal">
+    <h3>Guía de Tallas</h3>
+    <table>
+      <thead><tr><th>Talla</th><th>Pecho (cm)</th><th>Cintura (cm)</th><th>Cadera (cm)</th></tr></thead>
+      <tbody>
+        <tr><td>S</td><td>88–92</td><td>72–76</td><td>92–96</td></tr>
+        <tr><td>M</td><td>92–96</td><td>76–80</td><td>96–100</td></tr>
+        <tr><td>L</td><td>96–104</td><td>80–88</td><td>100–108</td></tr>
+        <tr><td>XL</td><td>104–112</td><td>88–96</td><td>108–116</td></tr>
+      </tbody>
+    </table>
+    <button class="modal-close-btn" onclick="closeSizeGuide()">Cerrar</button>
+  </div>
+</div>
+
+<!-- FILTER MODAL -->
+<div class="filter-modal" id="filter-modal">
+  <div class="filter-modal-overlay" onclick="closeFilterModal()"></div>
+  <div class="filter-modal-panel">
+    <div class="filter-modal-header"><h3>Filtros</h3><button class="filter-modal-close" onclick="closeFilterModal()">✕</button></div>
+    <div class="filter-group"><div class="filter-group-title">Categoría</div>
+      <label class="filter-check"><input type="checkbox" value="Chaquetas" class="fm" onchange="applyFilters()"> Chaquetas</label>
+      <label class="filter-check"><input type="checkbox" value="Pantalones" class="fm" onchange="applyFilters()"> Pantalones</label>
+      <label class="filter-check"><input type="checkbox" value="Poleras" class="fm" onchange="applyFilters()"> Poleras</label>
+    </div>
+    <div class="filter-group"><div class="filter-group-title">Precio máximo</div>
+      <input type="range" class="price-range" min="20000" max="100000" value="100000" id="price-filter-m" oninput="syncPrice(this.value)">
+      <div class="price-display" id="price-display-m">Hasta $100.000</div>
+    </div>
+    <div class="filter-group"><div class="filter-group-title">Talla</div>
+      <label class="filter-check"><input type="checkbox" value="S" class="fm" onchange="applyFilters()"> S</label>
+      <label class="filter-check"><input type="checkbox" value="M" class="fm" onchange="applyFilters()"> M</label>
+      <label class="filter-check"><input type="checkbox" value="L" class="fm" onchange="applyFilters()"> L</label>
+      <label class="filter-check"><input type="checkbox" value="XL" class="fm" onchange="applyFilters()"> XL</label>
+    </div>
+    <div class="filter-group"><div class="filter-group-title">Terreno</div>
+      <label class="filter-check"><input type="checkbox" value="ALTA MONTAÑA" class="fm" onchange="applyFilters()"> Alta Montaña</label>
+      <label class="filter-check"><input type="checkbox" value="TRAIL" class="fm" onchange="applyFilters()"> Trail</label>
+      <label class="filter-check"><input type="checkbox" value="TREKKING" class="fm" onchange="applyFilters()"> Trekking</label>
+      <label class="filter-check"><input type="checkbox" value="URBANO" class="fm" onchange="applyFilters()"> Urbano</label>
+    </div>
+    <button class="filter-modal-apply" onclick="closeFilterModal()">Ver productos →</button>
+  </div>
+</div>
+
+<!-- QUICK VIEW MODAL -->
+<div id="qv-overlay" role="dialog" aria-modal="true" aria-label="Vista rápida de producto" onclick="if(event.target===this)closeQuickView()">
+  <div class="qv-modal" id="qv-modal">
+    <button class="qv-close" onclick="closeQuickView()" aria-label="Cerrar">✕</button>
+    <div class="qv-gallery">
+      <img class="qv-main-img" id="qv-main-img" src="" alt="">
+      <div class="qv-thumbs" id="qv-thumbs"></div>
+    </div>
+    <div class="qv-info">
+      <div class="qv-terrain-tag" id="qv-terrain"></div>
+      <div class="qv-name" id="qv-name"></div>
+      <div class="qv-price-row" id="qv-price"></div>
+      <p class="qv-desc" id="qv-desc"></p>
+      <div class="qv-sub-label">Talla</div>
+      <div class="qv-sizes" id="qv-sizes"></div>
+      <div class="qv-sub-label">Color</div>
+      <div class="qv-colors" id="qv-colors"></div>
+      <div class="qv-actions">
+        <button class="qv-add-btn" id="qv-add-btn">🛍 Agregar al carro</button>
+        <button class="qv-buy-btn" id="qv-buy-btn">⚡ Comprar ahora</button>
+        <button class="qv-full-link" id="qv-full-link">Ver detalle completo →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- WELCOME POPUP -->
+<div id="welcome-popup" role="dialog" aria-modal="true" aria-label="Oferta de bienvenida">
+  <div class="popup-box">
+    <div class="popup-hero">
+      <div class="popup-hero-overlay"></div>
+      <button class="popup-close" onclick="closePopup()" aria-label="Cerrar">✕</button>
+      <div class="popup-hero-text">
+        <div class="popup-eyebrow">// Bienvenid@ a TAKU</div>
+        <div class="popup-headline">Tu primera compra<br>tiene <em>10% off</em></div>
+      </div>
+    </div>
+    <div class="popup-body">
+      <p class="popup-sub">Usa el código al momento del pago. Ropa técnica diseñada para los Andes y la Patagonia — sin excesos, sin compromisos.</p>
+      <div class="popup-code-box">
+        <div>
+          <div class="popup-code-label">Tu código de descuento</div>
+          <div class="popup-code-val">TAKU10</div>
+        </div>
+        <button class="popup-copy-btn" id="popup-copy-btn" onclick="copyDiscountCode()">Copiar →</button>
+      </div>
+      <button class="popup-cta" onclick="closePopupAndShop()">Ver colección →</button>
+      <button class="popup-skip" onclick="closePopup()">No gracias, pagar precio normal</button>
+      <div class="popup-validity">Válido solo para primera compra · Un uso por cliente</div>
+    </div>
+  </div>
+</div>
+
+<div id="float-cart" onclick="toggleCart()" aria-label="Ver carrito" role="button">
+  🛍 Ver carrito <span class="fc-count">0</span>
+</div>
+<div class="toast-wrap" id="toast-wrap" aria-live="polite"></div>
+<button id="back-top" onclick="smoothScrollTo(0,700)" title="Volver arriba">↑</button>
+
+<script>
+const products = [
+  {id:1,name:'Chaqueta Cóndor Shell',cat:'Chaquetas',price:89990,oldPrice:null,isNew:true,soldOut:['XL'],
+   colors:['#2D4A3E','#1A1A1A','#1B4F72'],colorNames:['Verde Musgo','Negro','Azul Petróleo'],
+   sizes:['S','M','L','XL'],terrain:'ALTA MONTAÑA',
+   img:'https://images.unsplash.com/photo-1551632811-561732d1e306?w=600&q=82',
+   imgs:['https://images.unsplash.com/photo-1551632811-561732d1e306?w=600&q=82','https://images.unsplash.com/photo-1605096086760-37b0db05f4c5?w=600&q=82','https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=600&q=82'],
+   desc:'La Cóndor Shell es nuestra hardshell de alto rendimiento para condiciones extremas. Tejido de 3 capas, costuras termoselladas y resistencia máxima al viento patagónico.',
+   tech:{Material:'Nylon Ripstop 70D',Peso:'380g','Resist. agua':'20.000mm',Temperatura:'-15°C a 5°C',Costuras:'Termoselladas'}},
+  {id:2,name:'Chaqueta Glaciar Softshell',cat:'Chaquetas',price:74990,oldPrice:null,isNew:false,soldOut:['S'],
+   colors:['#E8651A','#888888'],colorNames:['Naranja Alpino','Gris Roca'],
+   sizes:['S','M','L','XL'],terrain:'ALTA MONTAÑA',
+   img:'https://images.unsplash.com/photo-1503220317375-aaad61436b1b?w=600&q=82',
+   imgs:['https://images.unsplash.com/photo-1503220317375-aaad61436b1b?w=600&q=82','https://images.unsplash.com/photo-1519583272095-6433daf26b6e?w=600&q=82','https://images.unsplash.com/photo-1431794062232-2a99a5431c6c?w=600&q=82'],
+   desc:'Softshell de alto desempeño para actividades aeróbicas intensas. Máxima transpirabilidad con resistencia al viento.',
+   tech:{Material:'Polartec Power Stretch',Peso:'310g','Resist. agua':'10.000mm',Temperatura:'-5°C a 15°C',Costuras:'Planas'}},
+  {id:3,name:'Chaqueta Laja Wind Pro',cat:'Chaquetas',price:59990,oldPrice:79990,isNew:false,soldOut:[],
+   colors:['#1A1A1A','#c0392b'],colorNames:['Negro','Rojo Volcán'],
+   sizes:['S','M','L','XL'],terrain:'TRAIL',
+   img:'https://images.unsplash.com/photo-1526676037777-05a232554f77?w=600&q=82',
+   imgs:['https://images.unsplash.com/photo-1526676037777-05a232554f77?w=600&q=82','https://images.unsplash.com/photo-1480497490787-505ec076689f?w=600&q=82','https://images.unsplash.com/photo-1551632811-561732d1e306?w=600&q=82'],
+   desc:'Cortavientos ultraligero para trail running y senderismo rápido. Se empaca en su propio bolsillo al tamaño de un puño.',
+   tech:{Material:'Nylon 20D Ripstop',Peso:'120g','Resist. agua':'5.000mm',Temperatura:'5°C a 20°C',Costuras:'Planas ultrafinas'}},
+  {id:4,name:'Pantalón Andes Trekking',cat:'Pantalones',price:54990,oldPrice:null,isNew:true,soldOut:['M','L'],
+   colors:['#c8b460','#1A1A1A'],colorNames:['Caqui','Negro'],
+   sizes:['S','M','L','XL'],terrain:'TREKKING',
+   img:'https://images.unsplash.com/photo-1473966968600-fa801b869a1a?w=600&q=82',
+   imgs:['https://images.unsplash.com/photo-1473966968600-fa801b869a1a?w=600&q=82','https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=600&q=82','https://images.unsplash.com/photo-1480497490787-505ec076689f?w=600&q=82'],
+   desc:'El pantalón de trekking definitivo para rutas de varios días. Articulaciones preformadas y tejido resistente a la abrasión.',
+   tech:{Material:'Nylon 4-way Stretch',Peso:'320g','Resist. agua':'DWR tratado',Temperatura:'5°C a 25°C',Bolsillos:'6 funcionales'}},
+  {id:5,name:'Pantalón Volcán Cargo',cat:'Pantalones',price:49990,oldPrice:null,isNew:false,soldOut:['XL'],
+   colors:['#556B2F','#888888'],colorNames:['Verde Oliva','Gris'],
+   sizes:['S','M','L','XL'],terrain:'TREKKING',
+   img:'https://images.unsplash.com/photo-1431794062232-2a99a5431c6c?w=600&q=82',
+   imgs:['https://images.unsplash.com/photo-1431794062232-2a99a5431c6c?w=600&q=82','https://images.unsplash.com/photo-1487730116645-74489c95b41b?w=600&q=82','https://images.unsplash.com/photo-1503220317375-aaad61436b1b?w=600&q=82'],
+   desc:'Cargo técnico con capacidad de almacenamiento máxima para expediciones largas.',
+   tech:{Material:'Nylon Canvas 200g',Peso:'430g','Resist. agua':'Sin DWR',Temperatura:'5°C a 30°C',Bolsillos:'8 funcionales'}},
+  {id:6,name:'Short Patagón Ripstop',cat:'Pantalones',price:34990,oldPrice:null,isNew:false,soldOut:['S'],
+   colors:['#2563EB','#1A1A1A'],colorNames:['Azul','Negro'],
+   sizes:['S','M','L','XL'],terrain:'TRAIL',
+   img:'https://images.unsplash.com/photo-1526676037777-05a232554f77?w=600&q=82',
+   imgs:['https://images.unsplash.com/photo-1526676037777-05a232554f77?w=600&q=82','https://images.unsplash.com/photo-1473966968600-fa801b869a1a?w=600&q=82','https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=600&q=82'],
+   desc:'Short técnico ultraligero para trail running. Entretela de malla integrada y cintura ajustable.',
+   tech:{Material:'Nylon Ripstop 40D',Peso:'95g','Resist. agua':'Sin DWR',Temperatura:'15°C a 35°C',Largo:'25cm inseam'}},
+  {id:7,name:'Polera Merino Base Layer',cat:'Poleras',price:29990,oldPrice:null,isNew:true,soldOut:['M'],
+   colors:['#888888','#FFFFFF','#2D4A3E'],colorNames:['Gris','Blanco Nieve','Verde Musgo'],
+   sizes:['S','M','L','XL'],terrain:'ALTA MONTAÑA',
+   img:'https://images.unsplash.com/photo-1487730116645-74489c95b41b?w=600&q=82',
+   imgs:['https://images.unsplash.com/photo-1487730116645-74489c95b41b?w=600&q=82','https://images.unsplash.com/photo-1503220317375-aaad61436b1b?w=600&q=82','https://images.unsplash.com/photo-1519583272095-6433daf26b6e?w=600&q=82'],
+   desc:'Base layer de lana merino para termorregulación natural. Antimicrobiana, transpirable y suave al tacto.',
+   tech:{Material:'Merino 150gsm',Peso:'145g',Antimicrobiana:'Sí, natural',Temperatura:'-10°C a 20°C',UPF:'UPF 25+'}},
+  {id:8,name:'Polera Técnica Trail',cat:'Poleras',price:24990,oldPrice:null,isNew:false,soldOut:[],
+   colors:['#E8651A','#1A1A1A'],colorNames:['Naranja Alpino','Negro'],
+   sizes:['S','M','L','XL'],terrain:'TRAIL',
+   img:'https://images.unsplash.com/photo-1480497490787-505ec076689f?w=600&q=82',
+   imgs:['https://images.unsplash.com/photo-1480497490787-505ec076689f?w=600&q=82','https://images.unsplash.com/photo-1526676037777-05a232554f77?w=600&q=82','https://images.unsplash.com/photo-1605096086760-37b0db05f4c5?w=600&q=82'],
+   desc:'Polera técnica para trail running de alta intensidad. Secado ultrarápido y costuras planas.',
+   tech:{Material:'Polyester Dri-FIT 120g',Peso:'110g','Resist. agua':'Sin DWR',Temperatura:'10°C a 30°C',UPF:'UPF 20+'}},
+  {id:9,name:'Polera UV Block 50+',cat:'Poleras',price:22990,oldPrice:null,isNew:false,soldOut:['L','XL'],
+   colors:['#87CEEB','#FFFFFF'],colorNames:['Celeste','Blanco'],
+   sizes:['S','M','L','XL'],terrain:'URBANO',
+   img:'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=600&q=82',
+   imgs:['https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=600&q=82','https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=600&q=82','https://images.unsplash.com/photo-1431794062232-2a99a5431c6c?w=600&q=82'],
+   desc:'Protección solar máxima para exposición prolongada. Bloquea el 98% de la radiación UV.',
+   tech:{Material:'Polyester Coolmax',Peso:'130g','Resist. agua':'Sin DWR',Temperatura:'15°C a 40°C',UPF:'UPF 50+'}}
+];
+
+const reviewsByProduct = {
+  1:[{name:'Camila R.',stars:5,text:'La usé en el Chaltén y aguantó viento y lluvia sin problema. Vale cada peso.'},
+     {name:'Matías V.',stars:5,text:'Calidad increíble. El corte es perfecto y los detalles técnicos son serios.'},
+     {name:'Felipe A.',stars:4,text:'Muy buena chaqueta, solo le faltaría un poco más de largo. Igual la recomiendo.'}],
+  2:[{name:'Paula S.',stars:5,text:'La uso para trail y es perfecta. No siento calor y me protege del viento.'},
+     {name:'Diego M.',stars:4,text:'Excelente softshell, muy transpirable. El naranja se ve genial en ruta.'}],
+  3:[{name:'Andrés T.',stars:5,text:'Ultraligera y la empaco en el bolsillo. Ideal para mis salidas de trail.'},
+     {name:'Sofía L.',stars:4,text:'Gran relación precio-calidad. El rojo volcán queda espectacular.'}],
+  4:[{name:'Roberto C.',stars:5,text:'El mejor pantalón de trekking que he tenido. Cómodo desde el primer día.'},
+     {name:'Javiera P.',stars:5,text:'Articulado, ligero y con bolsillos en todos lados. Para rutas largas es ideal.'},
+     {name:'Tomás B.',stars:4,text:'Muy buen pantalón, el tejido es resistente y se seca rápido.'}],
+  5:[{name:'Ignacio F.',stars:4,text:'Cargo muy funcional. Llevo todo lo que necesito sin problemas.'},
+     {name:'Valentina H.',stars:5,text:'Material robusto y cómodo. Lo uso tanto en montaña como en la ciudad.'}],
+  6:[{name:'Sebastián M.',stars:5,text:'Perfecto para trail. Ligero, se seca rápido y el entalle es muy cómodo.'},
+     {name:'Carolina V.',stars:4,text:'Buena calidad. Lo uso en rutas de verano y no podría pedir más.'}],
+  7:[{name:'Fernanda L.',stars:5,text:'El merino es una maravilla. No huele, regula la temperatura y es suavísimo.'},
+     {name:'Cristóbal A.',stars:5,text:'Lo uso como base en invierno y como única capa en primavera. Versátil total.'},
+     {name:'Isidora M.',stars:4,text:'Muy buena calidad de merino al precio. Esperaba pagar el doble.'}],
+  8:[{name:'Pablo N.',stars:4,text:'Buena polera técnica, se seca muy rápido. El naranja es muy visible en ruta.'},
+     {name:'Renata C.',stars:5,text:'Las costuras planas hacen la diferencia en rutas largas. Sin roces.'}],
+  9:[{name:'Luis E.',stars:5,text:'Uso UPF 50+ en todos mis viajes. Esta es la mejor que he probado en precio.'},
+     {name:'Andrea M.',stars:4,text:'Liviana y fresca. El blanco se mantiene limpio más de lo que esperaba.'}]
+};
+
+let cart = [];
+try { cart = JSON.parse(localStorage.getItem('taku-cart') || '[]'); } catch(e) {}
+const favs = new Set();
+let currentFilter = 'all', currentSearch = '', priceMax = 100000, currentProduct = null, checkoutStep = 1;
+let savedScrollY = 0;
+
+// STOCK SYNC desde Google Sheets
+let stockData = {};
+const STOCK_SECRET = 'taku-stock-2026-k9x2';
+// REEMPLAZA [TU_URL] con la URL que Google Apps Script te da en el paso 3 de setup
+// La URL empieza con: https://script.google.com/macros/s/AKfycbz...
+const STOCK_URL = 'https://script.google.com/macros/s/[TU_URL]/exec?secret=' + STOCK_SECRET;
+const STOCK_REFRESH_MS = 600000; // 10 minutos
+
+async function syncStock() {
+  try {
+    const res = await fetch(STOCK_URL);
+    const data = await res.json();
+    if (data.ok && data.stock) {
+      stockData = data.stock;
+      updateProductsSoldOut();
+      console.log('Stock sincronizado:', new Date().toLocaleTimeString());
+    }
+  } catch (err) {
+    console.log('Stock sync falló (tienda sigue funcionando):', err.message);
+  }
+}
+
+function updateProductsSoldOut() {
+  products.forEach(p => {
+    if (stockData[p.id]) {
+      const stock = stockData[p.id];
+      p.soldOut = p.sizes.filter(s => (stock[s] || 0) <= 0);
+    }
+  });
+  applyFilters();
+}
+
+// Sincronizar stock al cargar y luego cada 10 minutos
+syncStock();
+setInterval(syncStock, STOCK_REFRESH_MS);
+
+const fmt = n => '$' + n.toLocaleString('es-CL');
+function saveCart() { try { localStorage.setItem('taku-cart', JSON.stringify(cart)); } catch(e) {} }
+function bounceCartIcon() {
+  const b = document.getElementById('cart-nav-btn');
+  if (!b) return;
+  b.classList.remove('cart-bounce');
+  void b.offsetWidth;          // fuerza reflow para reiniciar la animación
+  b.classList.add('cart-bounce');
+}
+
+window.addEventListener('scroll', () => {
+  const sy = window.scrollY;
+  document.getElementById('navbar').classList.toggle('scrolled', sy > 60);
+  document.getElementById('back-top').classList.toggle('visible', sy > 400);
+  const bar = document.getElementById('read-bar');
+  const max = document.documentElement.scrollHeight - window.innerHeight;
+  const pct = max > 0 ? Math.min(100, (sy / max) * 100) : 0;
+  bar.style.width = pct + '%';
+  bar.setAttribute('aria-valuenow', Math.round(pct));
+}, {passive:true});
+
+function smoothScrollTo(target, duration=900) {
+  const start = window.scrollY;
+  const distance = target - start;
+  let startTime = null;
+  function easeInOutCubic(t) { return t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t+2,3)/2; }
+  function step(timestamp) {
+    if (!startTime) startTime = timestamp;
+    const elapsed = timestamp - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    window.scrollTo(0, start + distance * easeInOutCubic(progress));
+    if (progress < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
+function scrollToCatalog() {
+  const el = document.getElementById('catalog-section');
+  const offset = document.getElementById('navbar').offsetHeight + 12;
+  smoothScrollTo(el.getBoundingClientRect().top + window.scrollY - offset);
+}
+function scrollToHistoria() {
+  const el = document.getElementById('historia-section');
+  smoothScrollTo(el.getBoundingClientRect().top + window.scrollY - 12);
+}
+function toggleMobile() {
+  const isOpen = document.getElementById('mobile-menu').classList.toggle('open');
+  document.getElementById('ham-btn').classList.toggle('open', isOpen);
+  document.getElementById('ham-btn').setAttribute('aria-expanded', isOpen);
+  document.getElementById('mobile-overlay').classList.toggle('open', isOpen);
+  document.body.style.overflow = isOpen ? 'hidden' : '';
+}
+function closeMobile() {
+  document.getElementById('mobile-menu').classList.remove('open');
+  document.getElementById('ham-btn').classList.remove('open');
+  document.getElementById('ham-btn').setAttribute('aria-expanded', 'false');
+  document.getElementById('mobile-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function handleSearch(q) { currentSearch=q.toLowerCase().trim(); document.getElementById('search-clear-btn').style.display=q?'flex':'none'; applyFilters(); }
+function clearSearch() { document.getElementById('searchInput').value=''; currentSearch=''; document.getElementById('search-clear-btn').style.display='none'; applyFilters(); }
+function syncPrice(v) { priceMax=parseInt(v); document.getElementById('price-display-m').textContent='Hasta '+fmt(priceMax); document.getElementById('price-filter').value=v; document.getElementById('price-display').textContent='Hasta '+fmt(priceMax); applyFilters(); }
+function updatePriceDisplay(v) { priceMax=parseInt(v); document.getElementById('price-display').textContent='Hasta '+fmt(priceMax); }
+function openFilterModal() { document.getElementById('filter-modal').classList.add('open'); document.body.style.overflow='hidden'; }
+function closeFilterModal() { document.getElementById('filter-modal').classList.remove('open'); document.body.style.overflow=''; }
+function openSizeGuide() { document.getElementById('size-modal').classList.add('open'); }
+function closeSizeGuide() { document.getElementById('size-modal').classList.remove('open'); }
+document.getElementById('size-modal').addEventListener('click', e => { if(e.target===e.currentTarget) closeSizeGuide(); });
+
+function clearAll() {
+  currentSearch = ''; currentFilter = 'all';
+  const si = document.getElementById('searchInput'); if (si) si.value = '';
+  document.getElementById('search-clear-btn').style.display = 'none';
+  document.querySelectorAll('.filter-check input').forEach(c => c.checked = false);
+  const pf = document.getElementById('price-filter'); if (pf) pf.value = 100000;
+  priceMax = 100000;
+  document.getElementById('price-display').textContent = 'Hasta $100.000';
+  const pd2 = document.getElementById('price-display-m'); if (pd2) pd2.textContent = 'Hasta $100.000';
+  document.querySelectorAll('.nav-cats button').forEach(b => b.classList.remove('active'));
+  const ba = document.getElementById('cat-all'); if (ba) ba.classList.add('active');
+  document.getElementById('catalog-title').textContent = 'Todos los productos';
+  applyFilters();
+}
+
+function renderEmptyState() {
+  const hasSearch = !!currentSearch;
+  const hasFilters = currentFilter !== 'all' || priceMax < 100000 ||
+    [...document.querySelectorAll('.filter-check input')].some(c => c.checked);
+  const hasAny = hasSearch || hasFilters;
+
+  const title = hasSearch
+    ? `Sin resultados para "${currentSearch}"`
+    : hasFilters
+      ? 'Sin productos en esta selección'
+      : 'No hay productos disponibles';
+
+  const sub = hasAny
+    ? 'Prueba con otros filtros o amplia la búsqueda.'
+    : 'Vuelve pronto — hay nuevos lanzamientos en camino.';
+
+  return `<div style="grid-column:1/-1;display:flex;flex-direction:column;align-items:center;text-align:center;padding:68px 24px">
+    <svg width="56" height="52" viewBox="0 0 112 100" xmlns="http://www.w3.org/2000/svg" style="opacity:.18;margin-bottom:18px">
+      <rect x="22" y="0" width="68" height="12" rx="1" fill="currentColor"/>
+      <rect x="47" y="0" width="18" height="28" fill="currentColor"/>
+      <polygon points="56,16 0,100 112,100" fill="currentColor"/>
+    </svg>
+    <div style="font-family:'Barlow Condensed',sans-serif;font-size:1.6rem;font-weight:800;text-transform:uppercase;color:var(--oscuro);margin-bottom:8px;letter-spacing:.04em">${title}</div>
+    <p style="font-size:.85rem;color:#999;margin-bottom:${hasAny?'22px':'0'};max-width:280px;line-height:1.65">${sub}</p>
+    ${hasAny ? `<button onclick="clearAll()" style="background:var(--verde);color:#fff;padding:10px 24px;border-radius:4px;font-size:.83rem;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;letter-spacing:.04em;border:none;transition:background .2s" onmouseover="this.style.background='var(--verde-light)'" onmouseout="this.style.background='var(--verde)'">Limpiar todos los filtros →</button>` : ''}
+  </div>`;
+}
+
+function sizeBtns(p, cls) {
+  const so = p.soldOut || [];
+  const firstAvail = p.sizes.findIndex(s => !so.includes(s));
+  return p.sizes.map((s, i) => {
+    const out = so.includes(s);
+    return `<button class="${cls}${i===firstAvail&&!out?' selected':''}${out?' sold-out':''}" ${out?'title="Agotado" tabindex="-1"':''} onclick="${out?'':cls==='size-btn'?'selectSize(event)':'this.closest(\'.\'+\'qv-sizes\').querySelectorAll(\'.qv-size-btn\').forEach(b=>b.classList.remove(\'selected\'));this.classList.add(\'selected\')'}">${s}</button>`;
+  }).join('');
+}
+
+function renderProducts(list) {
+  const grid = document.getElementById('products-grid');
+  document.getElementById('product-count').textContent = list.length + ' producto' + (list.length!==1?'s':'');
+  if (!list.length) { grid.innerHTML = renderEmptyState(); return; }
+  grid.innerHTML = list.map(p => {
+    const disc = p.oldPrice ? Math.round((1-p.price/p.oldPrice)*100) : 0;
+    const allStocks = p.sizes.map(s => getAvailableStock(p.id, s));
+    const hasAnyStock = allStocks.some(s => s > 0);
+    const isLowStock = allStocks.some(s => s > 0 && s <= 2);
+    return `<article class="prod-card" role="listitem">
+      <div class="prod-img-wrap" onclick="openDetail(${p.id})">
+        <img src="${p.img}" alt="${p.name}" loading="lazy" class="main-img" onload="this.classList.add('img-loaded')" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 400 533%22%3E%3Crect width=%22400%22 height=%22533%22 fill=%22%23e8e6e1%22/%3E%3Ctext x=%22200%22 y=%22275%22 font-family=%22sans-serif%22 font-size=%2218%22 fill=%22%23aaa%22 text-anchor=%22middle%22%3ETAKU%3C/text%3E%3C/svg%3E';this.classList.add('img-loaded')">
+        <img src="${p.imgs[1] || p.img}" alt="${p.name}" loading="lazy" class="hover-img">
+        <div class="terrain-badge"><span>${p.terrain}</span></div>
+        ${p.isNew ? '<div class="new-badge">Nuevo</div>' : ''}
+        ${disc ? `<div class="discount-badge">-${disc}%</div>` : ''}
+        ${isLowStock ? '<div style="position:absolute;top:50px;right:10px;z-index:2;background:#FF6B35;color:#fff;font-family:JetBrains Mono,monospace;font-size:.58rem;padding:3px 8px;border-radius:3px;letter-spacing:.08em">ÚLTIMAS</div>' : ''}
+        ${!hasAnyStock ? '<div style="position:absolute;inset:0;background:rgba(0,0,0,.7);z-index:2;display:flex;align-items:center;justify-content:center;border-radius:8px"><span style="color:#fff;font-weight:700;font-size:.95rem;text-align:center">AGOTADO</span></div>' : ''}
+        <button class="fav-btn ${favs.has(p.id)?'active':''}" onclick="event.stopPropagation();toggleFav(${p.id},this)">${favs.has(p.id)?'♥':'♡'}</button>
+        <button class="qv-trigger" onclick="event.stopPropagation();openQuickView(${p.id})">⚡ Ver rápido</button>
+      </div>
+      <div class="prod-info">
+        <div class="prod-name" onclick="openDetail(${p.id})">${p.name}</div>
+        <div class="prod-price"><span class="price-now">${fmt(p.price)}</span>${p.oldPrice?`<span class="price-old">${fmt(p.oldPrice)}</span>`:''}</div>
+        <div class="prod-sizes">${sizeBtns(p,'size-btn')}</div>
+        <div class="prod-colors">${p.colors.map((c,i)=>`<div class="color-dot${i===0?' selected':''}" style="background:${c}" title="${p.colorNames[i]}" onclick="selectColor(event)"></div>`).join('')}</div>
+        <button class="add-cart-btn" ${!hasAnyStock ? 'disabled style="opacity:0.5;cursor:not-allowed"' : ''} onclick="addToCart(${p.id})"><span>+</span> ${hasAnyStock ? 'Agregar al carro' : 'Agotado'}</button>
+      </div>
+    </article>`;
+  }).join('');
+  // Imágenes ya en caché no disparan onload — verificar tras render
+  requestAnimationFrame(() => {
+    grid.querySelectorAll('.main-img').forEach(img => {
+      if (img.complete && img.naturalWidth) img.classList.add('img-loaded');
+    });
+  });
+}
+function selectSize(e) { e.target.closest('.prod-sizes').querySelectorAll('.size-btn').forEach(b=>b.classList.remove('selected')); e.target.classList.add('selected'); }
+function selectColor(e) { e.target.closest('.prod-colors').querySelectorAll('.color-dot').forEach(d=>d.classList.remove('selected')); e.target.classList.add('selected'); }
+function toggleFav(id,btn) { if(favs.has(id)){favs.delete(id);btn.textContent='♡';btn.classList.remove('active');}else{favs.add(id);btn.textContent='♥';btn.classList.add('active');showToast('♥','Añadido a favoritos');} }
+
+function filterCat(cat) {
+  currentFilter=cat;
+  document.querySelectorAll('.nav-cats button').forEach(b=>b.classList.remove('active'));
+  const btn=document.getElementById('cat-'+cat);
+  if(btn) btn.classList.add('active');
+  document.getElementById('catalog-title').textContent=cat==='all'?'Todos los productos':cat;
+  applyFilters(); scrollToCatalog();
+}
+function applyFilters() {
+  const chk = sel => [...document.querySelectorAll(sel)].filter(c=>c.checked).map(c=>c.value);
+  const catF = chk('.filter-check input[value="Chaquetas"],.filter-check input[value="Pantalones"],.filter-check input[value="Poleras"]');
+  const szF  = chk('.filter-check input[value="S"],.filter-check input[value="M"],.filter-check input[value="L"],.filter-check input[value="XL"]');
+  const trF  = chk('.filter-check input[value="ALTA MONTAÑA"],.filter-check input[value="TRAIL"],.filter-check input[value="TREKKING"],.filter-check input[value="URBANO"]');
+  let list = products;
+  if(currentFilter!=='all') list=list.filter(p=>p.cat===currentFilter);
+  if(catF.length) list=list.filter(p=>catF.includes(p.cat));
+  if(szF.length)  list=list.filter(p=>p.sizes.some(s=>szF.includes(s)));
+  if(trF.length)  list=list.filter(p=>trF.includes(p.terrain));
+  list=list.filter(p=>p.price<=priceMax);
+  if(currentSearch) list=list.filter(p=>p.name.toLowerCase().includes(currentSearch)||p.cat.toLowerCase().includes(currentSearch)||p.terrain.toLowerCase().includes(currentSearch));
+  renderProducts(list);
+}
+function clearFilters() { document.querySelectorAll('.filter-check input').forEach(c=>c.checked=false); document.getElementById('price-filter').value=100000; priceMax=100000; document.getElementById('price-display').textContent='Hasta $100.000'; applyFilters(); }
+
+function openDetail(id) {
+  const p = products.find(x=>x.id===id); if(!p) return;
+  currentProduct=p;
+  document.getElementById('detail-terrain').textContent='// '+p.terrain;
+  document.getElementById('detail-name').textContent=p.name;
+  let ph=fmt(p.price);
+  if(p.oldPrice) ph+=` <span style="font-size:1rem;color:#bbb;text-decoration:line-through;font-weight:400">${fmt(p.oldPrice)}</span>`;
+  document.getElementById('detail-price').innerHTML=ph;
+  document.getElementById('detail-desc').textContent=p.desc;
+  document.getElementById('detail-tech').innerHTML=Object.entries(p.tech).map(([k,v])=>`<tr><td>${k}</td><td>${v}</td></tr>`).join('');
+  document.getElementById('detail-main-img').src=p.imgs[0];
+  document.getElementById('detail-main-img').alt=p.name;
+  document.getElementById('detail-thumbs').innerHTML=p.imgs.map((img,i)=>`<img src="${img}" class="thumb${i===0?' active':''}" onclick="switchImg(this,'${img}')" alt="Ángulo ${i+1}" loading="lazy">`).join('');
+  const so = p.soldOut || [];
+  const firstAvailD = p.sizes.findIndex(s => !so.includes(s));
+  document.getElementById('detail-sizes').innerHTML=p.sizes.map((s,i)=>{
+    const out=so.includes(s);
+    return `<button class="d-size-btn${i===firstAvailD&&!out?' selected':''}${out?' sold-out':''}" ${out?'title="Agotado" tabindex="-1"':'onclick="this.closest(\'.detail-sizes\').querySelectorAll(\'.d-size-btn\').forEach(b=>b.classList.remove(\'selected\'));this.classList.add(\'selected\')"'}>${s}</button>`;
+  }).join('');
+  document.getElementById('detail-colors').innerHTML=p.colors.map((c,i)=>`<div class="d-color-dot${i===0?' selected':''}" style="background:${c}" title="${p.colorNames[i]}" onclick="this.closest('.detail-colors').querySelectorAll('.d-color-dot').forEach(d=>d.classList.remove('selected'));this.classList.add('selected')"></div>`).join('');
+  const pr = reviewsByProduct[p.id] || [];
+  const avg = pr.length ? Math.round(pr.reduce((s,r)=>s+r.stars,0)/pr.length) : 5;
+  document.getElementById('detail-reviews').innerHTML=`
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
+      <span style="font-size:1.1rem;color:#f59e0b">${'★'.repeat(avg)}${'☆'.repeat(5-avg)}</span>
+      <span style="font-family:'JetBrains Mono',monospace;font-size:.72rem;color:#999">${pr.length} reseña${pr.length!==1?'s':''}</span>
+    </div>
+    ${pr.map(r=>`<div class="review"><div class="review-stars">${'★'.repeat(r.stars)}${'☆'.repeat(5-r.stars)}</div><div class="review-name">${r.name}</div><p class="review-text">${r.text}</p></div>`).join('')}`;
+  const btn = document.getElementById('detail-add-btn');
+  btn.textContent='🛍 Agregar al carro'; btn.classList.remove('added','adding');
+  btn.onclick = () => {
+    btn.classList.add('adding');
+    setTimeout(()=>btn.classList.remove('adding'),300);
+    btn.textContent='✓ Agregado al carro'; btn.classList.add('added');
+    setTimeout(()=>{ btn.textContent='🛍 Agregar al carro'; btn.classList.remove('added'); },1800);
+    addToCartFromDetail(p);
+  };
+  // Comprar ahora — add to cart + go straight to checkout
+  const buyBtn = document.getElementById('detail-buy-btn');
+  buyBtn.onclick = () => {
+    addToCartFromDetail(p);
+    closeDetail();
+    setTimeout(openCheckout, 80);
+  };
+  const el=document.getElementById('product-detail');
+  savedScrollY = window.scrollY;
+  el.style.display='block'; el.scrollTop=0; document.body.style.overflow='hidden';
+}
+function switchImg(el,src) { document.getElementById('detail-main-img').src=src; document.querySelectorAll('.thumb').forEach(t=>t.classList.remove('active')); el.classList.add('active'); }
+function closeDetail() {
+  document.getElementById('product-detail').style.display='none';
+  document.body.style.overflow='';
+  currentProduct=null;
+  if (savedScrollY > 0) { window.scrollTo(0, savedScrollY); savedScrollY = 0; }
+}
+function showHome() {
+  closeDetail(); closeCheckout();
+  smoothScrollTo(0);
+}
+
+function getAvailableStock(productId, size) {
+  if (!stockData[productId]) return 999;
+  return stockData[productId][size] || 0;
+}
+
+function addToCart(id) {
+  const p=products.find(x=>x.id===id);
+  if(!p) return;
+  const sz = p.sizes[0];
+  const stock = getAvailableStock(id, sz);
+  if (stock <= 0) { showToast('❌','Talla '+sz+' sin stock'); return; }
+  addItem(p, sz, 0);
+  showToast('🛍',p.name+' agregado',true);
+}
+function addToCartFromDetail(p) {
+  const sz=document.querySelector('.d-size-btn.selected')?.textContent||p.sizes[0];
+  const stock = getAvailableStock(p.id, sz);
+  if (stock <= 0) { showToast('❌','Talla '+sz+' sin stock'); return; }
+  const dots=[...document.querySelectorAll('.d-color-dot')];
+  const ci=Math.max(0,dots.findIndex(d=>d.classList.contains('selected')));
+  addItem(p,sz,ci); showToast('🛍',p.name+' agregado',true);
+}
+function addItem(p,size,colorIdx) {
+  const key=`${p.id}-${size}-${colorIdx}`;
+  const ex=cart.find(c=>c.key===key);
+  if(ex){ex.qty++;}else{cart.push({key,id:p.id,name:p.name,price:p.price,img:p.img,size,colorName:p.colorNames[colorIdx]||p.colorNames[0],qty:1});}
+  saveCart(); updateCartUI(); bounceCartIcon();
+}
+function updateCartUI() {
+  const total = cart.reduce((s,c) => s+c.qty, 0);
+  document.getElementById('cart-count').textContent = total;
+  const fc = document.getElementById('float-cart');
+  if (fc) {
+    fc.classList.toggle('visible', total > 0);
+    const fcc = fc.querySelector('.fc-count');
+    if (fcc) fcc.textContent = total;
+  }
+  renderCartItems();
+}
+function renderCartItems() {
+  const list=document.getElementById('cart-items-list');
+  const footer=document.getElementById('cart-footer');
+  if(!cart.length){list.innerHTML='<div class="empty-cart"><div>🛍</div><p>Tu carrito está vacío</p></div>';footer.innerHTML='';return;}
+  list.innerHTML=cart.map(c=>`
+    <div class="cart-item">
+      <img class="cart-item-img" src="${c.img}" alt="${c.name}">
+      <div class="cart-item-info">
+        <div class="cart-item-name">${c.name}</div>
+        <div class="cart-item-meta">Talla: ${c.size} · ${c.colorName}</div>
+        <div class="cart-item-qty">
+          <button class="qty-btn" onclick="changeQty('${c.key}',-1)">−</button>
+          <span class="qty-num">${c.qty}</span>
+          <button class="qty-btn" onclick="changeQty('${c.key}',1)">+</button>
+        </div>
+      </div>
+      <div class="cart-item-right">
+        <div class="cart-item-price">${fmt(c.price*c.qty)}</div>
+        <button class="cart-remove" onclick="removeItem('${c.key}')">✕ Eliminar</button>
+      </div>
+    </div>`).join('');
+  const sub=cart.reduce((s,c)=>s+c.price*c.qty,0);
+  const ship=sub>=49990?0:4990;
+  const pct=Math.min(100,Math.round(sub/49990*100));
+  const shipBar = sub>=49990
+    ? `<div class="ship-bar"><div class="ship-bar-msg is-free"><span>✓</span> ¡Envío gratis desbloqueado!</div><div class="ship-bar-track"><div class="ship-bar-fill full" style="width:100%"></div></div></div>`
+    : `<div class="ship-bar"><div class="ship-bar-msg"><span>Agrega <strong>${fmt(49990-sub)}</strong> para envío gratis</span><span style="font-family:'JetBrains Mono',monospace">${pct}%</span></div><div class="ship-bar-track"><div class="ship-bar-fill filling" style="width:${pct}%"></div></div></div>`;
+  footer.innerHTML=`
+    ${shipBar}
+    <div class="discount-row">
+      <input class="discount-input" placeholder="Código de descuento" id="disc-input">
+      <button class="discount-btn" onclick="applyDiscount()">Aplicar</button>
+    </div>
+    <div class="cart-totals">
+      <div class="total-row"><span>Subtotal</span><span>${fmt(sub)}</span></div>
+      <div class="total-row"><span>Envío</span><span>${ship===0?'<span style="color:var(--verde);font-weight:600">Gratis ✓</span>':fmt(ship)}</span></div>
+      <div class="total-row final"><span>TOTAL</span><span>${fmt(sub+ship)}</span></div>
+    </div>
+    <button class="checkout-btn" onclick="toggleCart();openCheckout()">Proceder al pago →</button>`;
+}
+function changeQty(key,d){const item=cart.find(c=>c.key===key);if(!item)return;item.qty+=d;if(item.qty<=0)cart=cart.filter(c=>c.key!==key);saveCart();updateCartUI();}
+function removeItem(key){cart=cart.filter(c=>c.key!==key);saveCart();updateCartUI();}
+function applyDiscount(){const code=(document.getElementById('disc-input')?.value||'').toUpperCase().trim();showToast(code==='TAKU10'?'🎉':'❌',code==='TAKU10'?'Descuento 10% aplicado':'Código inválido');}
+function toggleCart(){document.getElementById('cart-sidebar').classList.toggle('open');document.getElementById('cart-overlay').classList.toggle('visible');renderCartItems();}
+
+function openCheckout(){if(!cart.length){showToast('⚠️','Tu carrito está vacío');return;}checkoutStep=1;document.getElementById('checkout').style.display='block';document.body.style.overflow='hidden';renderCheckoutStep();}
+function closeCheckout(){document.getElementById('checkout').style.display='none';document.body.style.overflow='';}
+
+// FLOW.CL INTEGRATION
+let shippingData = {};
+function saveShipping() {
+  const v = id => document.getElementById(id)?.value?.trim() || '';
+  const name    = v('co-nombre');
+  const email   = v('co-email');
+  const address = v('co-direccion');
+  const city    = v('co-ciudad');
+  const region  = v('co-region');
+  const phone   = v('co-telefono');
+  if (!name)  { showToast('⚠️','Ingresa tu nombre completo'); return false; }
+  if (!email || !email.includes('@')) { showToast('⚠️','Ingresa un email válido'); return false; }
+  if (!address) { showToast('⚠️','Ingresa una dirección de despacho'); return false; }
+  if (!city)    { showToast('⚠️','Ingresa tu ciudad'); return false; }
+  if (!phone)   { showToast('⚠️','Ingresa un teléfono de contacto'); return false; }
+  shippingData = { name, email, address, city, region, phone };
+  try { localStorage.setItem('taku-shipping', JSON.stringify(shippingData)); } catch(e) {}
+  return true;
+}
+
+/* ── REGISTRO DE PEDIDOS EN GOOGLE SHEETS ──
+   Dispara al backend, que reenvía a un Apps Script Web App.
+   Nunca bloquea la compra: si falla, se traga el error en silencio. */
+function logOrder(payload) {
+  try {
+    const body = JSON.stringify(payload);
+    // sendBeacon sobrevive a la redirección a Flow; fetch es el respaldo
+    if (navigator.sendBeacon) {
+      const ok = navigator.sendBeacon('/.netlify/functions/log-order',
+        new Blob([body], {type:'application/json'}));
+      if (ok) return Promise.resolve();
+    }
+    return fetch('/.netlify/functions/log-order', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body, keepalive:true
+    }).catch(()=>{});
+  } catch(e) { return Promise.resolve(); }
+}
+async function startFlowPayment() {
+  if (!shippingData.email) { showToast('⚠️','Vuelve al paso 1 e ingresa tus datos'); checkoutStep=1; renderCheckoutStep(); return; }
+  const btn = document.getElementById('flow-pay-btn');
+  if (btn) { btn.disabled=true; btn.textContent='Conectando...'; }
+  const sub  = cart.reduce((s,c)=>s+c.price*c.qty,0);
+  const ship = sub>=49990?0:4990;
+  const orderId = 'TAKU-'+Date.now();
+  try {
+    const res = await fetch('/.netlify/functions/create-payment',{
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({amount:sub+ship,email:shippingData.email,orderId,customerName:shippingData.name,items:cart.map(c=>({name:c.name,qty:c.qty,price:c.price}))})
+    });
+    const data = await res.json();
+    if (data.redirectUrl) {
+      const order = {orderId,total:sub+ship,subtotal:sub,shipping:ship,email:shippingData.email,name:shippingData.name,
+        address:shippingData.address,city:shippingData.city,region:shippingData.region,phone:shippingData.phone,
+        items:[...cart]};
+      localStorage.setItem('taku-pending-order',JSON.stringify(order));
+      logOrder({...order, estado:'PENDIENTE'});
+      cart=[]; saveCart(); updateCartUI();
+      window.location.href=data.redirectUrl;
+    } else {
+      throw new Error(data.error||'Error al conectar con Flow');
+    }
+  } catch(err) {
+    showToast('❌',err.message);
+    if(btn){ btn.disabled=false; btn.textContent='⚡ Pagar con Flow'; }
+  }
+}
+// Retorno desde Flow.cl — detecta ?token= en la URL
+(function handleFlowReturn(){
+  const params=new URLSearchParams(window.location.search);
+  const token=params.get('token');
+  if(!token) return;
+  history.replaceState({},'',window.location.pathname);
+  const pending=JSON.parse(localStorage.getItem('taku-pending-order')||'null');
+  fetch('/.netlify/functions/payment-result?token='+encodeURIComponent(token))
+    .then(r=>r.json())
+    .then(data=>{
+      localStorage.removeItem('taku-pending-order');
+      const oid = pending?.orderId || null;
+      if(data.status===2){
+        if(oid) logOrder({orderId:oid, estado:'PAGADO', flowOrder:data.flowOrder||'', paymentDate:data.paymentDate||''});
+        openCheckout(); checkoutStep=3; renderCheckoutStep();
+      }
+      else if(data.status===1){
+        if(oid) logOrder({orderId:oid, estado:'EN PROCESO'});
+        showToast('⏳','Pago en proceso — te confirmaremos por email');
+      }
+      else {
+        if(oid) logOrder({orderId:oid, estado:'RECHAZADO'});
+        showToast('❌','El pago fue cancelado o rechazado');
+        if(pending?.items){cart=pending.items;saveCart();updateCartUI();}
+      }
+    })
+    .catch(()=>showToast('⚠️','No pudimos verificar el pago. Revisa tu email.'));
+})();
+function updateProgress(){document.getElementById('progress-fill').style.width=[0,50,100][checkoutStep-1]+'%';[1,2,3].forEach(i=>{document.getElementById('step'+i).className='step-dot'+(i===checkoutStep?' active':(i<checkoutStep?' done':''));});}
+const regiones=['Arica y Parinacota','Tarapacá','Antofagasta','Atacama','Coquimbo','Valparaíso','Metropolitana','O\'Higgins','Maule','Ñuble','Biobío','La Araucanía','Los Ríos','Los Lagos','Aysén','Magallanes'];
+function renderCheckoutStep(){
+  updateProgress();
+  const sub=cart.reduce((s,c)=>s+c.price*c.qty,0);
+  const ship=sub>=49990?0:4990;
+  const co=document.getElementById('checkout-content');
+  if(checkoutStep===1){
+    const sd = (()=>{ try { return JSON.parse(localStorage.getItem('taku-shipping')||'{}'); } catch(e){ return {}; } })();
+    const esc = s => (s||'').replace(/"/g,'&quot;');
+    co.innerHTML=`<div class="checkout-form">
+      <div class="form-row"><div class="form-group"><label>Nombre completo</label><input type="text" id="co-nombre" value="${esc(sd.name)}" placeholder="Juan Pérez"></div><div class="form-group"><label>Email</label><input type="email" id="co-email" value="${esc(sd.email)}" placeholder="juan@email.com"></div></div>
+      <div class="form-group"><label>Dirección</label><input type="text" id="co-direccion" value="${esc(sd.address)}" placeholder="Av. Las Condes 1234, Dpto 5"></div>
+      <div class="form-row"><div class="form-group"><label>Ciudad</label><input type="text" id="co-ciudad" value="${esc(sd.city)}" placeholder="Santiago"></div><div class="form-group"><label>Región</label><select id="co-region">${regiones.map(r=>`<option${sd.region===r?' selected':''}>${r}</option>`).join('')}</select></div></div>
+      <div class="form-group"><label>Teléfono</label><input type="tel" id="co-telefono" value="${esc(sd.phone)}" placeholder="+56 9 1234 5678"></div>
+    </div><div class="checkout-nav"><button class="btn-back-step" onclick="closeCheckout()">Cancelar</button><button class="btn-next-step" onclick="if(saveShipping()){checkoutStep=2;renderCheckoutStep();}">Continuar →</button></div>`;
+  } else if(checkoutStep===2){
+    co.innerHTML=`
+    <div class="checkout-form" style="text-align:center">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:.6rem;color:var(--naranja);letter-spacing:.18em;text-transform:uppercase;margin-bottom:12px">// Pago seguro</div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:1.9rem;font-weight:800;text-transform:uppercase;color:var(--oscuro);line-height:1;margin-bottom:10px">Serás redirigido<br>a Flow.cl</div>
+      <p style="font-size:.83rem;color:#999;line-height:1.65;max-width:300px;margin:0 auto 20px">Plataforma certificada PCI-DSS. Tu información financiera nunca llega a nuestros servidores.</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:22px;text-align:left">
+        <div style="border:1px solid rgba(0,0,0,.1);border-radius:6px;padding:11px 14px;font-size:.78rem;color:var(--oscuro);display:flex;align-items:center;gap:9px"><span style="font-size:1.1rem">💳</span> Tarjeta crédito/débito</div>
+        <div style="border:1px solid rgba(0,0,0,.1);border-radius:6px;padding:11px 14px;font-size:.78rem;color:var(--oscuro);display:flex;align-items:center;gap:9px"><span style="font-size:1.1rem">🏦</span> Webpay Plus</div>
+        <div style="border:1px solid rgba(0,0,0,.1);border-radius:6px;padding:11px 14px;font-size:.78rem;color:var(--oscuro);display:flex;align-items:center;gap:9px"><span style="font-size:1.1rem">📱</span> MACH</div>
+        <div style="border:1px solid rgba(0,0,0,.1);border-radius:6px;padding:11px 14px;font-size:.78rem;color:var(--oscuro);display:flex;align-items:center;gap:9px"><span style="font-size:1.1rem">💸</span> Transferencia</div>
+      </div>
+      <div style="background:var(--gris-claro);border-radius:6px;padding:13px;font-size:.84rem;color:#888">
+        Total a pagar: <strong style="color:var(--oscuro);font-family:'JetBrains Mono',monospace;font-size:1rem">${fmt(sub+ship)}</strong>
+      </div>
+    </div>
+    <div class="checkout-nav">
+      <button class="btn-back-step" onclick="checkoutStep=1;renderCheckoutStep()">← Atrás</button>
+      <button class="btn-next-step" id="flow-pay-btn" onclick="startFlowPayment()">⚡ Pagar con Flow</button>
+    </div>`;
+  } else {
+    co.innerHTML=`<div class="order-summary"><h3>Resumen del pedido</h3>${cart.map(c=>`<div class="order-item"><span>${c.name} ×${c.qty} (${c.size})</span><span>${fmt(c.price*c.qty)}</span></div>`).join('')}<div class="order-item"><span>Envío</span><span>${ship===0?'Gratis':fmt(ship)}</span></div><div class="order-total">TOTAL: ${fmt(sub+ship)}</div></div>
+    <div class="checkout-form"><div class="success-screen"><div class="success-icon">✓</div><h2>¡Pedido confirmado!</h2><p>Recibirás un email con los detalles de tu pedido. El despacho se realizará en 2–5 días hábiles a todo Chile.</p><button class="btn-primary" onclick="cart=[];saveCart();updateCartUI();closeCheckout()">Volver a la tienda</button></div></div>`;
+    cart=[];saveCart();updateCartUI();
+  }
+}
+
+function showToast(icon,msg,withLink=false){
+  const wrap=document.getElementById('toast-wrap');
+  const div=document.createElement('div');
+  div.className='toast';
+  div.innerHTML=`<span>${icon}</span><span>${msg}</span>${withLink?`<button class="toast-link" onclick="toggleCart()">Ver →</button>`:''}<button class="toast-close" onclick="this.parentElement.remove()">✕</button>`;
+  wrap.appendChild(div);
+  setTimeout(()=>{if(div.parentElement)div.remove();},3500);
+}
+
+// QUICK VIEW
+let currentQVProduct = null;
+
+function openQuickView(id) {
+  const p = products.find(x => x.id === id); if (!p) return;
+  currentQVProduct = p;
+
+  document.getElementById('qv-terrain').textContent = '// ' + p.terrain;
+  document.getElementById('qv-name').textContent = p.name;
+
+  let ph = `<span class="qv-price-now">${fmt(p.price)}</span>`;
+  if (p.oldPrice) ph += `<span class="qv-price-old">${fmt(p.oldPrice)}</span>`;
+  document.getElementById('qv-price').innerHTML = ph;
+
+  document.getElementById('qv-desc').textContent = p.desc;
+
+  const mainImg = document.getElementById('qv-main-img');
+  mainImg.src = p.imgs[0]; mainImg.alt = p.name;
+
+  document.getElementById('qv-thumbs').innerHTML = p.imgs.map((img, i) =>
+    `<img src="${img}" class="qv-thumb${i===0?' active':''}" onclick="qvSwitchImg(this,'${img}')" alt="Vista ${i+1}" loading="lazy">`
+  ).join('');
+
+  const soQV = p.soldOut || [];
+  const firstAvailQV = p.sizes.findIndex(s => !soQV.includes(s));
+  document.getElementById('qv-sizes').innerHTML = p.sizes.map((s, i) => {
+    const out = soQV.includes(s);
+    return `<button class="qv-size-btn${i===firstAvailQV&&!out?' selected':''}${out?' sold-out':''}" ${out?'title="Agotado" tabindex="-1"':'onclick="this.closest(\'.qv-sizes\').querySelectorAll(\'.qv-size-btn\').forEach(b=>b.classList.remove(\'selected\'));this.classList.add(\'selected\')"'}>${s}</button>`;
+  }).join('');
+
+  document.getElementById('qv-colors').innerHTML = p.colors.map((c, i) =>
+    `<div class="qv-color-dot${i===0?' selected':''}" style="background:${c}" title="${p.colorNames[i]}" onclick="this.closest('.qv-colors').querySelectorAll('.qv-color-dot').forEach(d=>d.classList.remove('selected'));this.classList.add('selected')"></div>`
+  ).join('');
+
+  const addBtn = document.getElementById('qv-add-btn');
+  addBtn.textContent = '🛍 Agregar al carro';
+  addBtn.classList.remove('added');
+  addBtn.onclick = () => addToCartFromQV(p, addBtn);
+
+  // Comprar ahora desde QV
+  const buyQV = document.getElementById('qv-buy-btn');
+  buyQV.onclick = () => {
+    addToCartFromQV(p, addBtn);
+    setTimeout(() => { closeQuickView(); setTimeout(openCheckout, 120); }, 400);
+  };
+
+  document.getElementById('qv-full-link').onclick = () => { closeQuickView(); setTimeout(() => openDetail(id), 220); };
+
+  document.getElementById('qv-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  document.addEventListener('keydown', qvEscHandler);
+}
+
+function qvSwitchImg(el, src) {
+  const img = document.getElementById('qv-main-img');
+  img.style.opacity = '0';
+  setTimeout(() => { img.src = src; img.style.opacity = '1'; }, 200);
+  document.querySelectorAll('.qv-thumb').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+}
+
+function closeQuickView() {
+  document.getElementById('qv-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+  document.removeEventListener('keydown', qvEscHandler);
+  currentQVProduct = null;
+}
+
+function qvEscHandler(e) { if (e.key === 'Escape') closeQuickView(); }
+
+function addToCartFromQV(p, btn) {
+  const sz  = document.querySelector('.qv-size-btn.selected')?.textContent || p.sizes[0];
+  const dots = [...document.querySelectorAll('.qv-color-dot')];
+  const ci  = Math.max(0, dots.findIndex(d => d.classList.contains('selected')));
+  addItem(p, sz, ci);
+  btn.textContent = '✓ Agregado al carro'; btn.classList.add('added');
+  showToast('🛍', p.name + ' agregado', true);
+  setTimeout(() => { btn.textContent = '🛍 Agregar al carro'; btn.classList.remove('added'); }, 1800);
+}
+
+// DARK MODE
+(function(){ if(localStorage.getItem('taku-theme')==='dark') document.documentElement.setAttribute('data-theme','dark'); })();
+function toggleTheme(){
+  const root=document.documentElement;
+  const going=root.getAttribute('data-theme')==='dark'?'':'dark';
+  root.classList.add('theme-transitioning');
+  root.setAttribute('data-theme',going);
+  localStorage.setItem('taku-theme',going);
+  setTimeout(()=>root.classList.remove('theme-transitioning'),380);
+}
+
+// LOOKBOOK — scroll-in animation
+(function() {
+  const items = document.querySelectorAll('.lb-item.lb-new');
+  if (!('IntersectionObserver' in window)) {
+    items.forEach(el => el.classList.add('lb-in'));
+    return;
+  }
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        const el = entry.target;
+        const idx = [...items].indexOf(el);
+        setTimeout(() => el.classList.add('lb-in'), (idx % 4) * 80);
+        obs.unobserve(el);
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+  items.forEach(el => obs.observe(el));
+})();
+
+// WELCOME POPUP
+function initWelcomePopup() {
+  if (sessionStorage.getItem('taku_popup_seen')) return;
+  setTimeout(() => {
+    const popup = document.getElementById('welcome-popup');
+    popup.style.display = 'flex';
+    popup.classList.add('popup-showing');
+    sessionStorage.setItem('taku_popup_seen', '1');
+    document.addEventListener('keydown', function escHandler(e) {
+      if (e.key === 'Escape') { closePopup(); document.removeEventListener('keydown', escHandler); }
+    });
+  }, 5000);
+}
+function closePopup() {
+  const popup = document.getElementById('welcome-popup');
+  popup.style.opacity = '0';
+  popup.style.transition = 'opacity .25s ease';
+  setTimeout(() => { popup.style.display = 'none'; popup.style.opacity = ''; popup.style.transition = ''; }, 250);
+}
+function closePopupAndShop() {
+  closePopup();
+  setTimeout(scrollToCatalog, 280);
+}
+function copyDiscountCode() {
+  const btn = document.getElementById('popup-copy-btn');
+  navigator.clipboard.writeText('TAKU10').catch(() => {});
+  btn.textContent = '✓ Copiado';
+  btn.style.background = 'var(--verde)';
+  showToast('✓', 'Código TAKU10 copiado al portapapeles');
+  setTimeout(() => { btn.textContent = 'Copiar →'; btn.style.background = ''; }, 2200);
+}
+// Click overlay to close
+document.getElementById('welcome-popup').addEventListener('click', function(e) {
+  if (e.target === this) closePopup();
+});
+initWelcomePopup();
+
+renderProducts(products);
+updateCartUI();
+</script>
+</body>
+</html>
